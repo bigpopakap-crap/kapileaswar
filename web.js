@@ -24,7 +24,7 @@ app.get('/home', function(req, res) {
 });
 
 app.get('/contact', function(req, res) {
-	return res.send('contact me!');
+	return res.render('contact.ejs');
 });
 
 app.get('/contact/:channel', function(req, res) {
@@ -39,27 +39,31 @@ app.get('/contact/:channel', function(req, res) {
 
 app.get('/resume', function(req, res) {
 	//TODO
-	return res.render('template.ejs');
+	return res.render('resume.ejs');
 });
 
 app.get('/projects/tech', function(req, res) {
 	//TODO
-	return res.send('here are my tech projects!');
+	return res.render('tech.ejs');
 });
 
 app.get('/projects/art', function(req, res) {
 	//TODO
-	return res.send('here are my artsy projects!');
+	return res.render('art.ejs');
 });
 
 app.get('/project/:projectId', function(req, res) {
 	//TODO
-	return res.send('here is the detail page for project ' + req.params.projectId);
+	return res.render('project-detail.ejs', {
+		project: {
+			id: req.params.projectId
+		}
+	});
 });
 
 app.get('/recruitme', function(req, res) {
 	//TODO
-	return res.send('congrats, you found the special URL!');
+	return res.render('recruitme.ejs');
 });
 
 // //TODO don't route in dev mode
