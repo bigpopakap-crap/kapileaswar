@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/home', function(req, res) {
-	return res.render('template.ejs');
+	return res.redirect('/resume');
 });
 
 app.get('/contact', function(req, res) {
@@ -39,7 +39,7 @@ app.get('/contact/:channel', function(req, res) {
 
 app.get('/resume', function(req, res) {
 	//TODO
-	return res.send('here\'s my resume!');
+	return res.render('template.ejs');
 });
 
 app.get('/projects/tech', function(req, res) {
