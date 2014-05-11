@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/home', function(req, res) {
-	return res.redirect('/resume');
+	return res.render('template.ejs');
 });
 
 app.get('/contact', function(req, res) {
