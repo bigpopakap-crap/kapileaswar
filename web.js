@@ -1,11 +1,17 @@
 var express = require("express");
 var logfmt = require("logfmt");
+var fs = require('fs');
+
 var app = express();
 
 app.use(logfmt.requestLogger());
 
+app.get('/', function(req, res) {
+	return res.redirect('/resume');
+});
+
 //remove trailing slashes
-app.use(function(req, res, next) {
+app.get('*/', function(req, res, next) {
 	var path = req.url;
 	if (path.substring(path.length - 1) == '/' && path.length > 1) {
 		return res.redirect(path.slice(0, -1));
@@ -13,10 +19,6 @@ app.use(function(req, res, next) {
 	else {
 		return next();
 	}
-});
-
-app.get('/', function(req, res) {
-	return res.redirect('/resume');
 });
 
 app.get('/home', function(req, res) {
@@ -42,21 +44,26 @@ app.get('/resume', function(req, res) {
 	return res.render('resume.ejs');
 });
 
-app.get('/projects/tech', function(req, res) {
-	//TODO
-	return res.render('tech.ejs');
+app.get('/projects/:categoryKey', function(req, res, next) {
+	//TODO read static JSON file instead of having a module for this
+	var categories = require(__dirname + '/modules/static/project-categories.js');
+	
+	var category = categories[req.params.categoryKey];
+	if (!category) {
+		return next();
+	}
+	else {
+		return res.render('project-category.ejs', {
+			category: category
+		});
+	}
 });
 
-app.get('/projects/art', function(req, res) {
-	//TODO
-	return res.render('art.ejs');
-});
-
-app.get('/project/:projectId', function(req, res) {
+app.get('/project/:projectKey', function(req, res) {
 	//TODO
 	return res.render('project-detail.ejs', {
 		project: {
-			id: req.params.projectId
+			name: req.params.projectKey
 		}
 	});
 });
