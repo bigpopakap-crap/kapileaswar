@@ -3,6 +3,16 @@
 	<%- include parts/common-prehead.ejs %>
 </head>
 <body>
-	my projects for category: <%= category.name %>
+	<h1>
+		my projects for category: <%= category.name %>
+	</h1>
+	
+	<% for (var i in category.projects) { %>
+		<% var project = category.projects[i] %>
+		
+		<div><a href="/project/<%= project.key %>">
+			<%= project.name %>
+		</a></div>
+	<% } %>
 </body>
 </html>

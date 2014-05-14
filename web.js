@@ -1,10 +1,11 @@
 var express = require("express");
 var logfmt = require("logfmt");
-var fs = require('fs');
-
 var app = express();
-
 app.use(logfmt.requestLogger());
+
+/*
+ * TODO use variables to replace all string constants used in this file
+ */
 
 app.get('/', function(req, res) {
 	return res.redirect('/resume');
@@ -21,8 +22,12 @@ app.get('*/', function(req, res, next) {
 	}
 });
 
+app.get('/index', function(req, res) {
+	return res.redirect('/');
+});
+
 app.get('/home', function(req, res) {
-	return res.redirect('/resume');
+	return res.redirect('/');
 });
 
 app.get('/contact', function(req, res) {
@@ -45,26 +50,29 @@ app.get('/resume', function(req, res) {
 });
 
 app.get('/projects/:categoryKey', function(req, res, next) {
-	//TODO read static JSON file instead of having a module for this
-	var categories = require(__dirname + '/modules/static/project-categories.js');
+	var categories = require(__dirname + '/modules/static/json-project-categories.js');
 	
 	var category = categories[req.params.categoryKey];
 	if (!category) {
 		return next();
 	}
-	else {
-		return res.render('project-category.ejs', {
-			category: category
-		});
-	}
+	
+	return res.render('project-category.ejs', {
+		category: category
+	});
 });
 
 app.get('/project/:projectKey', function(req, res) {
-	//TODO
+	//TODO read static JSON file instead of having a module for this
+	var projects = require(__dirname + '/modules/static/json-projects.js');
+	
+	var project = projects[req.params.projectKey];
+	if (!project) {
+		return next();
+	}
+	
 	return res.render('project-detail.ejs', {
-		project: {
-			name: req.params.projectKey
-		}
+		project: project
 	});
 });
 
@@ -78,9 +86,9 @@ app.get('/recruitme', function(req, res) {
 // 	//TODO do this
 // });
 
-//CATCH ALL: all other paths redirect to the base path
+//TODO use an actual error page instead
 app.get('*', function(req, res) {
-	return res.redirect('/');
+	return res.send('<a href="/">NOT FOUND! Go back home</a>');
 });
 
 var port = Number(process.env.PORT || 8080);
