@@ -7,8 +7,8 @@
 		my projects for category: <%= category.name %>
 	</h1>
 	
-	<% for (var i in category.projects) { %>
-		<% var project = category.projects[i] %>
+	<% for (var key in category.projects) { %>
+		<% var project = category.projects[key] %>
 		
 		<div><a href="/project/<%= project.key %>">
 			<%= project.name %>

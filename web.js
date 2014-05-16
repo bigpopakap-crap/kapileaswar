@@ -3,6 +3,9 @@ var logfmt = require("logfmt");
 var app = express();
 app.use(logfmt.requestLogger());
 
+var PROJECT_CATEGORIES = require(__dirname + '/modules/json/json-project-categories.js');
+var PROJECTS = require(__dirname + '/modules/json/json-projects.js');
+
 /*
  * TODO use variables to replace all string constants used in this file
  */
@@ -50,9 +53,7 @@ app.get('/resume', function(req, res) {
 });
 
 app.get('/projects/:categoryKey', function(req, res, next) {
-	var categories = require(__dirname + '/modules/static/json-project-categories.js');
-	
-	var category = categories[req.params.categoryKey];
+	var category = PROJECT_CATEGORIES[req.params.categoryKey];
 	if (!category) {
 		return next();
 	}
@@ -63,10 +64,7 @@ app.get('/projects/:categoryKey', function(req, res, next) {
 });
 
 app.get('/project/:projectKey', function(req, res) {
-	//TODO read static JSON file instead of having a module for this
-	var projects = require(__dirname + '/modules/static/json-projects.js');
-	
-	var project = projects[req.params.projectKey];
+	var project = PROJECTS[req.params.projectKey];
 	if (!project) {
 		return next();
 	}
