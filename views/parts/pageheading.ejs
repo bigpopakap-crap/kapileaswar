@@ -1,5 +1,7 @@
 <%- include linefiller.ejs %>
 
+<% var COLLAPSE_TARGET = '#navbar-collapse' %>
+
 <style type="text/css">
 	.navbar {
 		border-radius: 0 !important;
@@ -9,10 +11,18 @@
 <nav class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 	    <div class="navbar-header">
+			<button type="button" class="navbar-toggle"
+					data-toggle="collapse" data-target="<%= COLLAPSE_TARGET %>">
+				<span class="sr-only">Navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+	    	
 	    	<a href="/" class="navbar-brand" href="">Kapil Easwar</a>
 	    </div>
 
-		<div class="collapse navbar-collapse">
+		<div id="<%= COLLAPSE_TARGET %>" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<!-- 
 					TODO detect which page we're on and highlight
@@ -24,11 +34,14 @@
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li><p class="navbar-text">Connect</p></li>
-				<li><p class="navbar-text">(F)</p></li>
-				<li><p class="navbar-text">(T)</p></li>
-				<li><p class="navbar-text">(LI)</p></li>
-				<li><p class="navbar-text">(YT)</p></li>
+				<li>
+					<p class="navbar-text">
+						Connect &nbsp;
+						<a href="/contact/facebook">
+							<span class="glyphicon glyphicon-user"></span>
+						</a>
+					</p>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -42,6 +55,19 @@
 	
 	$window.scroll(function() {
 		$nav.toggleClass('navbar-fixed-top', navTop < $window.scrollTop());
+	});
+</script>
+
+<script type="text/javascript">
+	//TODO figure out how to get the "Connect" stuff to completely disappear on collapse
+	$(document).ready(function() {
+		console.log('ready');
+		
+		$('<%= COLLAPSE_TARGET %>').on('hidden.bs.collapse', function() {
+			console.log('hidden');
+		});
+		
+		console.log('attachd');
 	});
 </script>
 
