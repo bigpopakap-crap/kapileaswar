@@ -1,7 +1,9 @@
 var express = require("express");
 var logfmt = require("logfmt");
+
 var app = express();
 app.use(logfmt.requestLogger());
+app.use('/public', express.static(__dirname + '/public'));
 
 var PROJECT_CATEGORIES = require(__dirname + '/modules/json/json-project-categories.js');
 var PROJECTS = require(__dirname + '/modules/json/json-projects.js');
@@ -9,10 +11,6 @@ var PROJECTS = require(__dirname + '/modules/json/json-projects.js');
 /*
  * TODO use variables to replace all string constants used in this file
  */
-
-app.get('/', function(req, res) {
-	return res.redirect('/resume');
-});
 
 //remove trailing slashes
 app.get('*/', function(req, res, next) {
@@ -23,6 +21,10 @@ app.get('*/', function(req, res, next) {
 	else {
 		return next();
 	}
+});
+
+app.get('/', function(req, res) {
+	return res.redirect('/resume');
 });
 
 app.get('/index', function(req, res) {
