@@ -62,16 +62,3 @@
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</a>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$carousel = $('<%= CAROUSEL_TARGET_SEL %>');
-		
-		$carousel.swiperight(function() {
-			$carousel.carousel('next');
-		});
-		
-		$carousel.swipeleft(function() {
-			$carousel.carousel('prev');
-		});
-	});
-</script>
