@@ -9,9 +9,12 @@
 		height: <%= CAROUSEL_HEIGHT %>;
 	}
 	
-	<%= CAROUSEL_TARGET_SEL %> img {
+	<%= CAROUSEL_TARGET_SEL %> .item {
 		height: <%= CAROUSEL_HEIGHT %>;
-		min-width: 100%;
+	}
+	
+	<%= CAROUSEL_TARGET_SEL %> .item img {
+		width: 100%;
 	}
 </style>
 <div id="<%= CAROUSEL_TARGET_ID %>" class="carousel slide" data-ride="carousel">
@@ -59,3 +62,16 @@
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</a>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$carousel = $('<%= CAROUSEL_TARGET_SEL %>');
+		
+		$carousel.swiperight(function() {
+			$carousel.carousel('next');
+		});
+		
+		$carousel.swipeleft(function() {
+			$carousel.carousel('prev');
+		});
+	});
+</script>
