@@ -37,7 +37,7 @@
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li>
+				<li class="hidden-xs">
 					<p class="navbar-text">
 						Connect &nbsp;
 						<a href="/contact/facebook">
@@ -59,19 +59,6 @@
 	$window.scroll(function() {
 		$nav.toggleClass('navbar-fixed-top', navTop < $window.scrollTop());
 	});
-</script>
-
-<script type="text/javascript">
-	//TODO figure out how to get the "Connect" stuff to completely disappear on collapse
-	// $(document).ready(function() {
-		// console.log('ready');
-// 		
-		// $('<%= COLLAPSE_TARGET_SEL %>').on('hidden.bs.collapse', function() {
-			// console.log('hidden');
-		// });
-// 		
-		// console.log('attached');
-	// });
 </script>
 
 <%- include linefiller.ejs %>
