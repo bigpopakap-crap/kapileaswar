@@ -1,3 +1,18 @@
+//-
+	id - the ID of the carousel
+	data - an array of
+		src - image source URL
+		alt - text to use for the alt
+		caption - text to use for the caption
+	options - an object with
+		height - the height the carousel should be
+		initActive - initial index to be active
+		indicators - whether to include the placement indicators
+		controls - whether to include the left/right controls
+		autoscroll - whether it should auto scroll or not
+	
+mixin carousel(id, data, options)
+
 <%
 	var CAROUSEL_TARGET_ID = 'pageheading-carousel';
 	var CAROUSEL_TARGET_SEL = '#' + CAROUSEL_TARGET_ID;
