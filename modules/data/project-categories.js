@@ -1,5 +1,5 @@
-var assert = require('../util/assert.js');
-var projects = require('./json-projects.js');
+var assert = require('assert');
+var projects = require('./projects.js');
 
 var categories = {
 	tech: {
@@ -18,14 +18,14 @@ var categories = {
 for (var ckey in categories) {
 	var category = categories[ckey];
 	
-	assert.assert(!category.key);
+	assert(!category.key);
 	category.key = ckey;
 	
 	for (var pi in category.projects) {
 		var pkey = category.projects[pi];
 		
 		var project = projects[pkey];
-		assert.assert(project, "category " + ckey + "'s project key " + pkey + " doesn't reference any projects");
+		assert(project, "category " + ckey + "'s project key " + pkey + " doesn't reference any projects");
 		
 		category.projects[pi] = project;
 	}
