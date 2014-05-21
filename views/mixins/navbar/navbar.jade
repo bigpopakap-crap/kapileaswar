@@ -1,3 +1,39 @@
-mixin navbar(id)
-	div(id=id)
-		| yeaaahh stuff
+//-
+	id - the ID of the navbar
+	dynamicAffix - should the navbar dynamically fix to top on scroll
+	initFixed - should the navbar be initalized to be fixed to top
+	
+mixin navbar(id, dynamicAffix, initFixed)
+
+	-var NAVBAR_ID = id
+	-var NAVBAR_SEL = "#" + NAVBAR_ID
+	-var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + " .navbar-collapse"
+	
+	nav(id=NAVBAR_ID).navbar.navbar-default(role="navigation")
+		div.container-fluid
+			div.navbar-header
+				button(type="buton").navbar-toggle(data-toggle="collapse", data-target=NAVBAR_COLLAPSE_SEL)
+					span.sr-only
+						| Navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+					
+				a.navbar-brand(href="/")
+					| Kapil Easwar
+					
+			div.collapse.navbar-collapse
+				ul.nav.navbar-nav
+					//- TODO detect which page we're on and highlight appropriate link
+					li: a(href="/resume"): | Resume
+					li: a(href="/projects/tech"): | Tech projects
+					li: a(href="/contact"): | Contact
+				
+				ul.nav.navbar-nav.navbar-right
+					//- TODO make this not hardcoded
+					li.hidden-xs
+						p.navbar-text
+							| Connect &nbsp;
+							a(href="contact/facebook")
+								span.glyphicon.glyphicon-user
+			//- end navbar-collapse
