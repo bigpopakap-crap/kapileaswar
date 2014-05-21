@@ -1,11 +1,5 @@
-include ../mixins/navbar/navbar.jade
+extends ../layouts/layout.jade
+include ../mixins/navbar.jade
 
-doctype html
-html(lang="en-US")
-head
-	//- TODO why is this rendering inside the body?
-	include ../includes/common-head/common-head.jade
-body
-	| STUFF BEFORE NAVBAR
+block body
 	+navbar("navbar")
-	| WELCOME!
