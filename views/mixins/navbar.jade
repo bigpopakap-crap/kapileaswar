@@ -7,9 +7,11 @@ mixin navbar(id, dynamicAffix, initFixed)
 
 	-var NAVBAR_ID = id
 	-var NAVBAR_SEL = "#" + NAVBAR_ID
-	-var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + " .navbar-collapse"
+	-var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .navbar-collapse'
 	
-	nav(id=NAVBAR_ID).navbar.navbar-default(role="navigation")
+	-var NAVBAR_FIXED_SWITCH = initFixed ? 'navbar-fixed-top' : ''
+	
+	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default(class=NAVBAR_FIXED_SWITCH)
 		div.container-fluid
 			div.navbar-header
 				button(type="buton").navbar-toggle(data-toggle="collapse", data-target=NAVBAR_COLLAPSE_SEL)
@@ -38,23 +40,24 @@ mixin navbar(id, dynamicAffix, initFixed)
 			//- end navbar-collapse
 	//- end nav
 
-if !dynamicAffix
-	style(type="text/css").
-		.navbar.navbar-inverse {
-			border-radius: 0 !important;
-		}
-		
-		.navbar.navbar-inverse:not(.navbar-fixed-top) {
-			border-top: none;
-		}
-		
-	script(type="text/javascript").
-		var $window = $(window);
-		
-		var $nav = $('nav');
-		var navTop = $nav.offset().top;
-		
-		$window.scroll(function() {
-			$nav.toggleClass('navbar-fixed-top', navTop < $window.scrollTop());
-		});
-//- end if dynamicAffix
+	if dynamicAffix
+		style(type="text/css").
+			.navbar.navbar-inverse {
+				border-radius: 0 !important;
+			}
+			
+			.navbar.navbar-inverse:not(.navbar-fixed-top) {
+				border-top: none;
+			}
+			
+		script(type="text/javascript").
+			var $window = $(window);
+			
+			var $nav = $('nav');
+			var navTop = $nav.offset().top;
+			
+			$window.scroll(function() {
+				$nav.toggleClass('navbar-fixed-top', navTop < $window.scrollTop());
+			});
+	//- end if dynamicAffix
+//- end mixin

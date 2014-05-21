@@ -1,0 +1,8 @@
+//-
+	num - number of lines to include
+	msg - optional line to print (default "filler text")
+	
+mixin linefiller(num, msg)
+	- msg = msg || 'filler text'
+	- for (var i = 0; i < num; i++)
+		div: =msg

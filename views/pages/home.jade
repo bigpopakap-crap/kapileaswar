@@ -1,5 +1,8 @@
 extends ../layouts/layout.jade
 include ../mixins/navbar.jade
+include ../mixins/linefiller.jade
 
 block body
-	+navbar("navbar")
+	+linefiller(10)
+	+navbar("navbar", true)
+	+linefiller(100)
