@@ -37,3 +37,24 @@ mixin navbar(id, dynamicAffix, initFixed)
 								span.glyphicon.glyphicon-user
 			//- end navbar-collapse
 	//- end nav
+
+if !dynamicAffix
+	style(type="text/css").
+		.navbar.navbar-inverse {
+			border-radius: 0 !important;
+		}
+		
+		.navbar.navbar-inverse:not(.navbar-fixed-top) {
+			border-top: none;
+		}
+		
+	script(type="text/javascript").
+		var $window = $(window);
+		
+		var $nav = $('nav');
+		var navTop = $nav.offset().top;
+		
+		$window.scroll(function() {
+			$nav.toggleClass('navbar-fixed-top', navTop < $window.scrollTop());
+		});
+//- end if dynamicAffix
