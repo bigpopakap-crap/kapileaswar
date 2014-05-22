@@ -101,22 +101,22 @@ mixin navbar(id, options)
 					span.icon-bar
 					span.icon-bar
 					
-				a.navbar-brand(href="/"): | Kapil Easwar
+				a.navbar-brand(href=URLS.base()): | Kapil Easwar
 			//- end navbar-header
 					
 			div.collapse.navbar-collapse
 				ul.nav.navbar-nav
 					//- TODO detect which page we're on and highlight appropriate link
-					li: a(href="/resume"): | Resume
-					li: a(href="/projects/tech"): | Tech projects
-					li: a(href="/contact"): | Contact
+					li: a(href=URLS.resume()): | Resume
+					li: a(href=URLS.projectCategory_tech()): | Tech projects
+					li: a(href=URLS.contact()): | Contact
 				
 				ul.nav.navbar-nav.navbar-right
 					//- TODO make this not hardcoded
 					li.hidden-xs
 						p.navbar-text
 							| Connect &nbsp;
-							a(href="contact/facebook")
+							a(href=URLS.contact_facebook())
 								span.glyphicon.glyphicon-user
 			//- end navbar-collapse
 	//- end the actual navbar

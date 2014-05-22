@@ -7,6 +7,9 @@ var app = express();
 
 app.use(logfmt.requestLogger());
 app.use(urls.pub(), express.static(__dirname + '/public'));
+app.locals = {
+	URLS: urls
+}
 
 var PROJECT_CATEGORIES = require(__dirname + '/modules/data/project-categories.js');
 var PROJECTS = require(__dirname + '/modules/data/projects.js');

@@ -34,10 +34,24 @@ function contact(channel) {
 }
 exports.contact = contact;
 
+function contact_facebook() {
+	return contact(contactChannels.facebook);
+}
+exports.contact_facebook = contact_facebook;
+
 function projectCategory(catkey) {
 	return urlHelper('/projects', catkey);
 }
 exports.projectCategory = projectCategory;
+
+function projectCategory_tech() {
+	/*
+	 * TODO don't hardcode this, or assert that
+	 * 		such a category exists
+	 */
+	return projectCategory('tech');
+}
+exports.projectCategory_tech = projectCategory_tech;
 
 function projectDetail(projkey) {
 	return urlHelper('/project', projkey);
