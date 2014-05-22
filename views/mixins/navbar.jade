@@ -2,22 +2,31 @@
 	id - the ID of the navbar
 	options - an object with
 		dynamicAffix - should the navbar dynamically fix to top on scroll
-		initFixed - should the navbar be initalized to be fixed to top
+						default false
+		initFixed - should the navbar be initialized to be fixed to top
+						default false
+		collapseOnBlur - should the menu collapse on blur?
+						default true
 
 mixin navbar(id, options)
 
-	- options = options || {}
+	- options = options || {};
+	- if ('boolean' !== typeof options.collapseOnBlur) {
+	- 	options.collapseOnBlur = true;
+	- }
 		
-	- var NAVBAR_ID = id
-	- var NAVBAR_SEL = "#" + NAVBAR_ID
-	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .navbar-collapse'
+	- var NAVBAR_ID = id;
+	- var NAVBAR_SEL = '#' + NAVBAR_ID;
+	- var NAVBAR_COLLAPSE_TOGGLE_SEL = NAVBAR_SEL + ' .collapse-toggle';
+	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .collapse';
 	
 	//- begin fixed navbar stuff
 		This won't work with multiple navs because the hasFixedNavbar
+		class will be changed by the last navbar to be un-fixed
 	style(type="text/css").
-			body.hasFixedNavbar {
-				padding-top: 70px;
-			}
+		body.hasFixedNavbar {
+			padding-top: 70px;
+		}
 	
 	script(type="text/javascript").
 		$(document).ready(function() {
@@ -58,6 +67,23 @@ mixin navbar(id, options)
 				window.navbar_setNavbarFixed($('#{NAVBAR_SEL}'), true);
 			});
 	//- end fixed navbar stuff
+	
+	if options.collapseOnBlur
+		script(type="text/javascript").
+			$(document).ready(function() {
+				var $collapse = $('#{NAVBAR_COLLAPSE_SEL}');
+				
+				$(document).click(function(evt) {
+					//only hide if the target is not the navbar
+					var $target = $(event.target);
+					var isFromNavbar = $target.closest('#{NAVBAR_SEL}').length > 0;
+					
+					if (!isFromNavbar) {
+						$collapse.collapse('hide');
+					}
+				});
+			});
+	//- end if collapseOnBlur
 	
 	//- begin the actual navbar
 	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default
