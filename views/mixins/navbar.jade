@@ -25,7 +25,7 @@ mixin navbar(id, options)
 		class will be changed by the last navbar to be un-fixed
 	style(type="text/css").
 		body.hasFixedNavbar {
-			padding-top: 70px;
+			padding-top: 60px;
 		}
 	
 	script(type="text/javascript").
@@ -76,9 +76,10 @@ mixin navbar(id, options)
 				$(document).click(function(evt) {
 					//only hide if the target is not the navbar
 					var $target = $(event.target);
-					var isFromNavbar = $target.closest('#{NAVBAR_SEL}').length > 0;
+					var isEvtFromNavbar = $target.closest('#{NAVBAR_SEL}').length > 0;
+					var isCollapseOpen = $collapse.is('.collapse.in');
 					
-					if (!isFromNavbar) {
+					if (isCollapseOpen && !isEvtFromNavbar) {
 						$collapse.collapse('hide');
 					}
 				});
