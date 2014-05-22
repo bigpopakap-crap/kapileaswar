@@ -1,17 +1,19 @@
 //-
 	id - the ID of the navbar
-	dynamicAffix - should the navbar dynamically fix to top on scroll
-	initFixed - should the navbar be initalized to be fixed to top
-	
-mixin navbar(id, dynamicAffix, initFixed)
+	options - an object with
+		dynamicAffix - should the navbar dynamically fix to top on scroll
+		initFixed - should the navbar be initalized to be fixed to top
 
-	-var NAVBAR_ID = id
-	-var NAVBAR_SEL = "#" + NAVBAR_ID
-	-var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .navbar-collapse'
+mixin navbar(id, options)
+
+	- options = options || {}
+		
+	- var NAVBAR_ID = id
+	- var NAVBAR_SEL = "#" + NAVBAR_ID
+	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .navbar-collapse'
+	- var SWITCH_NAVBAR_FIXED = options.initFixed ? 'navbar-fixed-top' : ''
 	
-	-var NAVBAR_FIXED_SWITCH = initFixed ? 'navbar-fixed-top' : ''
-	
-	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default(class=NAVBAR_FIXED_SWITCH)
+	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default(class=SWITCH_NAVBAR_FIXED)
 		div.container-fluid
 			div.navbar-header
 				button(type="buton").navbar-toggle(data-toggle="collapse", data-target=NAVBAR_COLLAPSE_SEL)
@@ -40,13 +42,13 @@ mixin navbar(id, dynamicAffix, initFixed)
 			//- end navbar-collapse
 	//- end nav
 
-	if dynamicAffix
+	if options.dynamicAffix
 		style(type="text/css").
-			.navbar.navbar-inverse {
+			#{NAVBAR_SEL} {
 				border-radius: 0 !important;
 			}
 			
-			.navbar.navbar-inverse:not(.navbar-fixed-top) {
+			#{NAVBAR_SEL}.navbar-inverse:not(.navbar-fixed-top) {
 				border-top: none;
 			}
 			

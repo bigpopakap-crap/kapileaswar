@@ -4,5 +4,7 @@ include ../mixins/linefiller.jade
 
 block body
 	+linefiller(10)
-	+navbar("navbar", true)
+	+navbar("navbar", {
+			dynamicAffix: true
+		})
 	+linefiller(100)
