@@ -1,10 +1,12 @@
 var express = require("express");
 var logfmt = require("logfmt");
 
+var urls = require(__dirname + '/modules/urls.js');
+
 var app = express();
 
 app.use(logfmt.requestLogger());
-app.use('/public', express.static(__dirname + '/public'));
+app.use(urls.pub(), express.static(__dirname + '/public'));
 
 var PROJECT_CATEGORIES = require(__dirname + '/modules/data/project-categories.js');
 var PROJECTS = require(__dirname + '/modules/data/projects.js');
@@ -24,30 +26,33 @@ app.get('*/', function(req, res, next) {
 	}
 });
 
-app.get('/', function(req, res) {
+app.get(urls.base(), function(req, res) {
 	return res.render('pages/home.jade');
 });
 
-app.get('/resume', function(req, res) {
+app.get(urls.resume(), function(req, res) {
 	//TODO
 	return res.render('pages/resume.jade');
 });
 
-app.get('/contact', function(req, res) {
+app.get(urls.contact(), function(req, res) {
 	return res.render('pages/contact.jade');
 });
 
-app.get('/contact/:channel', function(req, res) {
+app.get(urls.contact(':channel'), function(req, res) {
 	//TODO should these just be static links?
 	//TODO add more
 	switch (req.params.channel) {
-		case 'facebook': 	return res.redirect('https://www.facebook.com/bigpopakap');
-		case 'twitter': 	return res.redirect('https://www.twitter.com/bigpopakap');
-		default: 			return res.redirect('/contact');
+		case urls.contactChannels.facebook: 
+			return res.redirect('https://www.facebook.com/bigpopakap');
+		case urls.contactChannels.twitter:
+			return res.redirect('https://www.twitter.com/bigpopakap');
+		default:
+			return res.redirect(urls.contact());
 	}
 });
 
-app.get('/projects/:categoryKey', function(req, res, next) {
+app.get(urls.projectCategory(':categoryKey'), function(req, res, next) {
 	var category = PROJECT_CATEGORIES[req.params.categoryKey];
 	if (!category) {
 		return next();
@@ -58,7 +63,7 @@ app.get('/projects/:categoryKey', function(req, res, next) {
 	});
 });
 
-app.get('/project/:projectKey', function(req, res) {
+app.get(urls.projectDetail(':projectKey'), function(req, res) {
 	var project = PROJECTS[req.params.projectKey];
 	if (!project) {
 		return next();
@@ -69,7 +74,7 @@ app.get('/project/:projectKey', function(req, res) {
 	});
 });
 
-app.get('/recruitme', function(req, res) {
+app.get(urls.recruitme(), function(req, res) {
 	//TODO
 	return res.render('pages/recruitme.jade');
 });
