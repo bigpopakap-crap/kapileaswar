@@ -72,6 +72,7 @@ mixin navbar(id, options)
 		script(type="text/javascript").
 			$(document).ready(function() {
 				var $window = $(window);
+				var $document = $(document);
 				var $collapse = $('#{NAVBAR_COLLAPSE_SEL}');
 				
 				function handler(evt) {
@@ -85,7 +86,7 @@ mixin navbar(id, options)
 					}
 				}
 				
-				$(document).click(handler);
+				$document.click(handler);
 				$window.scroll(handler);
 			});
 	//- end if collapseOnBlur
