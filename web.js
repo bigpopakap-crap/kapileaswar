@@ -25,15 +25,12 @@ app.get('*/', function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-	return res.redirect('/home');
-});
-
-app.get('/index', function(req, res) {
-	return res.redirect('/');
-});
-
-app.get('/home', function(req, res) {
 	return res.render('pages/home.jade');
+});
+
+app.get('/resume', function(req, res) {
+	//TODO
+	return res.render('resume.ejs');
 });
 
 app.get('/contact', function(req, res) {
@@ -48,11 +45,6 @@ app.get('/contact/:channel', function(req, res) {
 		case 'twitter': 	return res.redirect('https://www.twitter.com/bigpopakap');
 		default: 			return res.redirect('/contact');
 	}
-});
-
-app.get('/resume', function(req, res) {
-	//TODO
-	return res.render('resume.ejs');
 });
 
 app.get('/projects/:categoryKey', function(req, res, next) {
