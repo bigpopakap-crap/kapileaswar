@@ -71,9 +71,10 @@ mixin navbar(id, options)
 	if options.collapseOnBlur
 		script(type="text/javascript").
 			$(document).ready(function() {
+				var $window = $(window);
 				var $collapse = $('#{NAVBAR_COLLAPSE_SEL}');
 				
-				$(document).click(function(evt) {
+				function handler(evt) {
 					//only hide if the target is not the navbar
 					var $target = $(event.target);
 					var isEvtFromNavbar = $target.closest('#{NAVBAR_SEL}').length > 0;
@@ -82,7 +83,10 @@ mixin navbar(id, options)
 					if (isCollapseOpen && !isEvtFromNavbar) {
 						$collapse.collapse('hide');
 					}
-				});
+				}
+				
+				$(document).click(handler);
+				$window.scroll(handler);
 			});
 	//- end if collapseOnBlur
 	
