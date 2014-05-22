@@ -11,9 +11,56 @@ mixin navbar(id, options)
 	- var NAVBAR_ID = id
 	- var NAVBAR_SEL = "#" + NAVBAR_ID
 	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .navbar-collapse'
-	- var SWITCH_NAVBAR_FIXED = options.initFixed ? 'navbar-fixed-top' : ''
 	
-	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default(class=SWITCH_NAVBAR_FIXED)
+	//- begin fixed navbar stuff
+		This won't work with multiple navs because the hasFixedNavbar
+	style(type="text/css").
+			body.hasFixedNavbar {
+				padding-top: 70px;
+			}
+	
+	script(type="text/javascript").
+		$(document).ready(function() {
+			var $body = $('body');
+			
+			window.navbar_setNavbarFixed = function($nav, shouldFix) {
+				$nav.toggleClass('navbar-fixed-top', shouldFix);
+				$body.toggleClass('hasFixedNavbar', shouldFix);
+			}
+		});
+	
+	if options.dynamicAffix
+		style(type="text/css").
+			#{NAVBAR_SEL}:not(.navbar-fixed-top) {
+				border-radius: 0;
+			}
+			
+			#{NAVBAR_SEL}.navbar-inverse:not(.navbar-fixed-top) {
+				border-top: none;
+			}
+			
+		script(type="text/javascript").
+			$(document).ready(function() {
+				var $window = $(window);
+				
+				var $body = $('body');
+				var $nav = $('#{NAVBAR_SEL}');
+				var navTop = $nav.offset().top;
+				
+				$window.scroll(function() {
+					window.navbar_setNavbarFixed($nav, navTop < $window.scrollTop());
+				});
+			});
+			
+	if options.initFixed
+		script(type="text/javascript").
+			$(document).ready(function() {
+				window.navbar_setNavbarFixed($('#{NAVBAR_SEL}'), true);
+			});
+	//- end fixed navbar stuff
+	
+	//- begin the actual navbar
+	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default
 		div.container-fluid
 			div.navbar-header
 				button(type="buton").navbar-toggle(data-toggle="collapse", data-target=NAVBAR_COLLAPSE_SEL)
@@ -40,26 +87,5 @@ mixin navbar(id, options)
 							a(href="contact/facebook")
 								span.glyphicon.glyphicon-user
 			//- end navbar-collapse
-	//- end nav
-
-	if options.dynamicAffix
-		style(type="text/css").
-			#{NAVBAR_SEL} {
-				border-radius: 0 !important;
-			}
-			
-			#{NAVBAR_SEL}.navbar-inverse:not(.navbar-fixed-top) {
-				border-top: none;
-			}
-			
-		script(type="text/javascript").
-			var $window = $(window);
-			
-			var $nav = $('nav');
-			var navTop = $nav.offset().top;
-			
-			$window.scroll(function() {
-				$nav.toggleClass('navbar-fixed-top', navTop < $window.scrollTop());
-			});
-	//- end if dynamicAffix
+	//- end the actual navbar
 //- end mixin
