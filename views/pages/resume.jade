@@ -1,0 +1,9 @@
+extends ../layouts/layout.jade
+include ../mixins/navbar.jade
+
+block body
+	+navbar("navbar", {
+			initFixed: true
+		})
+		
+	h1 here's my resume

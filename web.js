@@ -30,11 +30,11 @@ app.get('/', function(req, res) {
 
 app.get('/resume', function(req, res) {
 	//TODO
-	return res.render('resume.ejs');
+	return res.render('pages/resume.jade');
 });
 
 app.get('/contact', function(req, res) {
-	return res.render('contact.ejs');
+	return res.render('pages/contact.jade');
 });
 
 app.get('/contact/:channel', function(req, res) {
@@ -53,7 +53,7 @@ app.get('/projects/:categoryKey', function(req, res, next) {
 		return next();
 	}
 	
-	return res.render('project-category.ejs', {
+	return res.render('pages/project-category.jade', {
 		category: category
 	});
 });
@@ -64,20 +64,15 @@ app.get('/project/:projectKey', function(req, res) {
 		return next();
 	}
 	
-	return res.render('project-detail.ejs', {
+	return res.render('pages/project-detail.jade', {
 		project: project
 	});
 });
 
 app.get('/recruitme', function(req, res) {
 	//TODO
-	return res.render('recruitme.ejs');
+	return res.render('pages/recruitme.jade');
 });
-
-// //TODO don't route in dev mode
-// app.get('/killserver', function(req, res) {
-// 	//TODO do this
-// });
 
 //TODO use an actual error page instead
 app.get('*', function(req, res) {
