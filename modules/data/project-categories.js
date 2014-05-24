@@ -12,8 +12,8 @@ var categories = {
 };
 
 /*
- * add all key attributes and
- * convert all project id's to objects
+ * add all key attributes, assert that they
+ * agree, and make sure all project references exist
  */
 for (var ckey in categories) {
 	var category = categories[ckey];
@@ -26,8 +26,6 @@ for (var ckey in categories) {
 		
 		var project = projects[pkey];
 		assert(project, "category " + ckey + "'s project key " + pkey + " doesn't reference any projects");
-		
-		category.projects[pi] = project;
 	}
 }
 	

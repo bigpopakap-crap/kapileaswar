@@ -1,18 +1,21 @@
 var express = require("express");
 var logfmt = require("logfmt");
 
-var urls = require(__dirname + '/modules/urls.js');
+var URLS = require(__dirname + '/modules/urls.js');
 
-var app = express();
-
-app.use(logfmt.requestLogger());
-app.use(urls.pub(), express.static(__dirname + '/public'));
-app.locals = {
-	URLS: urls
+var DATA = {
+	PROJECT_CATEGORIES: require(__dirname + '/modules/data/project-categories.js'),
+	PROJECTS: require(__dirname + '/modules/data/projects.js'),
+	HEAD_CAROUSEL: require(__dirname + "/modules/data/head-carousel.js")
 }
 
-var PROJECT_CATEGORIES = require(__dirname + '/modules/data/project-categories.js');
-var PROJECTS = require(__dirname + '/modules/data/projects.js');
+var app = express();
+app.use(logfmt.requestLogger());
+app.use(URLS.pub(), express.static(__dirname + '/public'));
+app.locals = {
+	URLS: URLS,
+	DATA: DATA
+}
 
 /*
  * TODO use variables to replace all string constants used in this file
@@ -29,62 +32,69 @@ app.get('*/', function(req, res, next) {
 	}
 });
 
-app.get(urls.base(), function(req, res) {
+app.get(URLS.base(), function(req, res) {
 	return res.render('pages/home.jade');
 });
 
-app.get(urls.resume(), function(req, res) {
+app.get(URLS.resume(), function(req, res) {
 	//TODO
 	return res.render('pages/resume.jade');
 });
 
-app.get(urls.contact(), function(req, res) {
+app.get(URLS.contact(), function(req, res) {
 	return res.render('pages/contact.jade');
 });
 
-app.get(urls.contact(':channel'), function(req, res) {
+app.get(URLS.contact(':channel'), function(req, res) {
 	//TODO should these just be static links?
 	//TODO add more
 	switch (req.params.channel) {
-		case urls.contactChannels.facebook: 
+		case URLS.contactChannels.facebook: 
 			return res.redirect('https://www.facebook.com/bigpopakap');
-		case urls.contactChannels.twitter:
+		case URLS.contactChannels.twitter:
 			return res.redirect('https://www.twitter.com/bigpopakap');
 		default:
-			return res.redirect(urls.contact());
+			return res.redirect(URLS.contact());
 	}
 });
 
-app.get(urls.projectCategory(':categoryKey'), function(req, res, next) {
-	var category = PROJECT_CATEGORIES[req.params.categoryKey];
+app.get(URLS.projectCategory(':categoryKey'), function(req, res, next) {
+	var category = DATA.PROJECT_CATEGORIES[req.params.categoryKey];
 	if (!category) {
-		return next();
+		return res.redirect(URLS.notfound());
 	}
 	
 	return res.render('pages/project-category.jade', {
-		category: category
+		catkey: category.key
 	});
 });
 
-app.get(urls.projectDetail(':projectKey'), function(req, res) {
-	var project = PROJECTS[req.params.projectKey];
+app.get(URLS.projectDetail(':projectKey'), function(req, res) {
+	var project = DATA.PROJECTS[req.params.projectKey];
 	if (!project) {
-		return next();
+		return res.redirect(URLS.notfound());
 	}
 	
 	return res.render('pages/project-detail.jade', {
-		project: project
+		pkey: project.key
 	});
 });
 
-app.get(urls.recruitme(), function(req, res) {
+app.get(URLS.recruitme(), function(req, res) {
 	//TODO
 	return res.render('pages/recruitme.jade');
 });
 
-//TODO use an actual error page instead
-app.get('*', function(req, res) {
+/*
+ * TODO use an actual error page instead
+ * TODO keep a reference to the page they were trying to get to
+ */
+app.get(URLS.notfound(), function(req, res) {
 	return res.send('<a href="/">NOT FOUND! Go back home</a>');
+});
+
+app.get('*', function(req, res) {
+	return res.redirect(URLS.notfound());
 });
 
 var port = Number(process.env.PORT || 8080);

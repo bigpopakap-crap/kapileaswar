@@ -3,21 +3,15 @@ include ../mixins/navbar.jade
 include ../mixins/carousel.jade
 include ../mixins/linefiller.jade
 
+//-
+	The homepage
 block body
-	+carousel(
-		'heading-carousel',
-		[
-			{
-				src: "/img",
-				alt: "alt",
-				caption: "some caption goes here"
-			}
-		],
-		{
+	+carousel('head-carousel', DATA.HEAD_CAROUSEL, {
+			indicators: false,
+			controls: false,
 			height: '200px'
-		}
-	)
+		})
 	+navbar("navbar", {
-		dynamicAffix: true
-	})
+			dynamicAffix: true
+		})
 	+linefiller(100)

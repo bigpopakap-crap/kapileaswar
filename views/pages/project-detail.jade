@@ -1,9 +1,16 @@
 extends ../layouts/layout.jade
 include ../mixins/navbar.jade
 
+//-
+	Overview of a project
+	
+	Params:
+		pkey - the key of the project object to display
 block body
+	- var PROJECT = DATA.PROJECTS[pkey];
+
 	+navbar("navbar", {
 			initFixed: true
 		})
 	
-	h1 project detail for #{project.name}
+	h1 project detail for #{PROJECT.name}
