@@ -1,10 +1,23 @@
 extends ../layouts/layout.jade
 include ../mixins/navbar.jade
+include ../mixins/carousel.jade
 include ../mixins/linefiller.jade
 
 block body
-	+linefiller(10)
+	+carousel(
+		'heading-carousel',
+		[
+			{
+				src: "/img",
+				alt: "alt",
+				caption: "some caption goes here"
+			}
+		],
+		{
+			height: '200px'
+		}
+	)
 	+navbar("navbar", {
-			dynamicAffix: true
-		})
+		dynamicAffix: true
+	})
 	+linefiller(100)
