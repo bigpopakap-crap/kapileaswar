@@ -21,8 +21,6 @@ mixin navbar(id, options)
 	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .collapse';
 	
 	//- begin fixed navbar stuff
-		This won't work with multiple navs because the hasFixedNavbar
-		class will be changed by the last navbar to be un-fixed
 	style(type="text/css").
 		body.hasFixedNavbar {
 			padding-top: 60px;
@@ -32,9 +30,15 @@ mixin navbar(id, options)
 		$(document).ready(function() {
 			var $body = $('body');
 			
+			var numFixedNavbars = 0;
+			
 			window.navbar_setNavbarFixed = function($nav, shouldFix) {
 				$nav.toggleClass('navbar-fixed-top', shouldFix);
-				$body.toggleClass('hasFixedNavbar', shouldFix);
+				
+				if (shouldFix) numFixedNavbars++;
+				else numFixedNavbars--;
+				
+				$body.toggleClass('hasFixedNavbar', numFixedNavbars > 0);
 			}
 		});
 	
@@ -90,6 +94,16 @@ mixin navbar(id, options)
 				$window.scroll(handler);
 			});
 	//- end if collapseOnBlur
+	
+	script(type="text/javascript").
+		$(document).ready(function() {
+			var $collapse = $('#{NAVBAR_COLLAPSE_SEL}');
+			var $toggle = $('#{NAVBAR_SEL} .navbar-toggle');
+			
+			$collapse.on('hide.bs.collapse', function() {
+				$toggle.blur();
+			});
+		});
 	
 	//- begin the actual navbar
 	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default
