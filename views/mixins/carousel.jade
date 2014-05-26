@@ -9,6 +9,7 @@
 		initActive - initial index to be active
 		indicators - whether to include the placement indicators
 		controls - whether to include the left/right controls
+		autoplay - whether the carousel should auto-advance
 	
 mixin carousel(id, imgData, options)
 
@@ -23,7 +24,7 @@ mixin carousel(id, imgData, options)
 	- options.initActive = options.initActive || 0;
 	- options.indicators = ('boolean' == typeof options.indicators) ? options.indicators : true;
 	- options.controls = ('boolean' == typeof options.controls) ? options.controls : true;
-	- options.autoscroll = ('boolean' == typeof options.autoscroll) ? options.autoscroll : true;
+	- options.autoplay = ('boolean' == typeof options.autoplay) ? options.autoplay : true;
 	
 	style(type="text/css").
 		#{CAROUSEL_SEL},
@@ -35,7 +36,9 @@ mixin carousel(id, imgData, options)
 			width: 100%;
 		}
 		
-	div(id=CAROUSEL_ID).carousel.slide(data-ride="carousel")
+	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
+		
+	div(id=CAROUSEL_ID).carousel.slide(data-ride=SWITCH_DATA_RIDE)
 		if options.indicators
 			ol.carousel-indicators
 				- for (var i = 0; i < imgData.length; i++) {
