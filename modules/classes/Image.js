@@ -25,7 +25,7 @@ function Image(url, options) {
 	this.getCenterX = getCenterX;
 	
 	function getCenterY() {
-		return centery;
+		return options.centery;
 	}
 	this.getCenterY = getCenterY;
 	

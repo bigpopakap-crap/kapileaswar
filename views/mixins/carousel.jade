@@ -9,7 +9,9 @@
 		autoplay - whether the carousel should auto-advance
 		showcaptions - master switch to enable/disable captions
 						(even if they are defined in the data)
-	
+
+include ./kimgpos.jade
+
 mixin carousel(id, imgData, options)
 
 	- imgData = imgData || [];
@@ -50,7 +52,7 @@ mixin carousel(id, imgData, options)
 			- for (var i = 0; i < imgData.length; i++) {
 				- var switchActiveClass = (i == options.initActive) ? "active" : "";
 				div.item(class=switchActiveClass)
-					img(src=imgData[i].getUrl(), alt=imgData[i].getAlt())
+					+kimgpos(imgData[i])
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}
