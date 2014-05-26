@@ -10,6 +10,8 @@
 		indicators - whether to include the placement indicators
 		controls - whether to include the left/right controls
 		autoplay - whether the carousel should auto-advance
+		showcaptions - master switch to enable/disable captions
+						(even if they are defined in the data)
 	
 mixin carousel(id, imgData, options)
 
@@ -25,6 +27,7 @@ mixin carousel(id, imgData, options)
 	- options.indicators = ('boolean' == typeof options.indicators) ? options.indicators : true;
 	- options.controls = ('boolean' == typeof options.controls) ? options.controls : true;
 	- options.autoplay = ('boolean' == typeof options.autoplay) ? options.autoplay : true;
+	- options.showcaptions = ('boolean' == typeof options.showcaptions) ? options.showcaptions : true;
 	
 	style(type="text/css").
 		#{CAROUSEL_SEL},
@@ -51,8 +54,9 @@ mixin carousel(id, imgData, options)
 				- var switchActiveClass = (i == options.initActive) ? "active" : "";
 				div.item(class=switchActiveClass)
 					img(src=imgData[i].src, alt=imgData[i].alt)
-					div.carousel-caption
-						| #{imgData[i].caption}
+					if options.showcaptions
+						div.carousel-caption
+							| #{imgData[i].caption}
 			- }
 			
 		if options.controls
