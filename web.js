@@ -6,7 +6,8 @@ var URLS = require(__dirname + '/modules/urls.js');
 var DATA = {
 	PROJECT_CATEGORIES: require(__dirname + '/modules/data/project-categories.js'),
 	PROJECTS: require(__dirname + '/modules/data/projects.js'),
-	HEAD_CAROUSEL: require(__dirname + "/modules/data/head-carousel.js")
+	HEAD_CAROUSEL: require(__dirname + "/modules/data/head-carousel.js"),
+	CONTACT_CHANNELS: require(__dirname + "/modules/data/contact-channels.js")
 }
 
 var app = express();
@@ -45,17 +46,13 @@ app.get(URLS.contact(), function(req, res) {
 	return res.render('pages/contact.jade');
 });
 
-app.get(URLS.contact(':channel'), function(req, res) {
-	//TODO should these just be static links?
-	//TODO add more
-	switch (req.params.channel) {
-		case URLS.contactChannels.facebook: 
-			return res.redirect('https://www.facebook.com/bigpopakap');
-		case URLS.contactChannels.twitter:
-			return res.redirect('https://www.twitter.com/bigpopakap');
-		default:
-			return res.redirect(URLS.contact());
+app.get(URLS.contact(':channel'), function(req, res, next) {
+	var channel = DATA.CONTACT_CHANNELS[req.params.channel];
+	if (!channel) {
+		return next();
 	}
+	
+	return res.redirect(channel.url);
 });
 
 app.get(URLS.projectCategory(':categoryKey'), function(req, res, next) {

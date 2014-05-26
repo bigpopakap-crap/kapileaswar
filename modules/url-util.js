@@ -8,7 +8,7 @@ var assert = require('assert');
  * 	/some-example-url-path)
  */
 function assertValidUrlPath(path) {
-	assert.strictEqual(path, path.toLowerCase());
-	assert(!(/\s/g.test(path)));
+	assert.strictEqual(path, path.toLowerCase(), 'path "' + path + '" should be all lowercase');
+	assert(!(/\s/g.test(path)), 'path "' + path + '" should not contain whitespace');
 }
 exports.assertValidUrlPath = assertValidUrlPath;

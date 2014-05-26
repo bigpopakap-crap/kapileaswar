@@ -1,3 +1,5 @@
+var contactChannels = require('./data/contact-channels.js');
+
 function urlHelper(base, arg) {
 	if (!arg) {
 		arg = '';
@@ -23,19 +25,13 @@ function resume() {
 }
 exports.resume = resume;
 
-var contactChannels = {
-	facebook: 'facebook',
-	twitter: 'twitter'
-}
-exports.contactChannels = contactChannels;
-
 function contact(channel) {
 	return urlHelper('/contact', channel);
 }
 exports.contact = contact;
 
 function contact_facebook() {
-	return contact(contactChannels.facebook);
+	return contact(contactChannels.facebook.key);
 }
 exports.contact_facebook = contact_facebook;
 
