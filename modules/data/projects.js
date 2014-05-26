@@ -1,4 +1,5 @@
 var assert = require('assert');
+var urlUtil = require('../url-util.js');
 
 var projects = {
 	'some-proj-1' : {
@@ -10,11 +11,11 @@ var projects = {
 };
 
 /*
- * add all key attributes and
- * convert all project id's to objects
+ * add all key attributes
  */
 for (var key in projects) {
 	assert(!projects[key].key);
+	urlUtil.assertValidUrlPath(key);
 	projects[key].key = key;
 }
 

@@ -64,6 +64,6 @@ function recruitme() {
 exports.recruitme = recruitme;
 
 function notfound() {
-	return urlHelper('/notfound/404');
+	return urlHelper('/error/404-notfound');
 }
 exports.notfound = notfound;

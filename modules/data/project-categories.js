@@ -1,4 +1,5 @@
 var assert = require('assert');
+var urlUtil = require('../url-util.js');
 var projects = require('./projects.js');
 
 var categories = {
@@ -19,6 +20,7 @@ for (var ckey in categories) {
 	var category = categories[ckey];
 	
 	assert(!category.key);
+	urlUtil.assertValidUrlPath(ckey);
 	category.key = ckey;
 	
 	for (var pi in category.projects) {
