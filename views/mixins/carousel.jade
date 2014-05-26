@@ -1,9 +1,6 @@
 //-
 	id - the ID of the carousel
-	imgData - an array of
-		src - image source URL
-		alt - text to use for the alt
-		caption - text to use for the caption
+	imgData - an array of Image objects
 	options - an object with
 		height - the height the carousel should be
 		initActive - initial index to be active
@@ -53,10 +50,10 @@ mixin carousel(id, imgData, options)
 			- for (var i = 0; i < imgData.length; i++) {
 				- var switchActiveClass = (i == options.initActive) ? "active" : "";
 				div.item(class=switchActiveClass)
-					img(src=imgData[i].src, alt=imgData[i].alt)
+					img(src=imgData[i].getUrl(), alt=imgData[i].getAlt())
 					if options.showcaptions
 						div.carousel-caption
-							| #{imgData[i].caption}
+							| #{imgData[i].getAlt()}
 			- }
 			
 		if options.controls
