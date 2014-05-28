@@ -37,7 +37,7 @@ mixin carousel(id, imgData, options)
 				var $carousel = $('#{CAROUSEL_SEL}');
 				
 				$carousel.on('slid.bs.carousel', function() {
-					$carousel.find('.item.active img[data-k-imgpos="1"]').kImgPos();
+					$carousel.find('.item.active img[data-k-imgpos-winresize="1"]').kimgpos();
 				});
 			});
 	
@@ -77,7 +77,7 @@ mixin carousel(id, imgData, options)
 				- var switchActiveClass = (i == options.initActive) ? "active" : "";
 				- var switchKImgPos = options.usekimgpos ? "1" : "0";
 				div.item(class=switchActiveClass)
-					img(src=imgData[i].getUrl(), data-k-imgpos=switchKImgPos, data-k-imgpos-x=imgData[i].getCenterX(), data-k-imgpos-y=imgData[i].getCenterY())
+					img(src=imgData[i].getUrl(), data-k-imgpos-docload=switchKImgPos, data-k-imgpos-winresize=switchKImgPos, data-k-imgpos-center-x=imgData[i].getCenterX(), data-k-imgpos-center-y=imgData[i].getCenterY())
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}

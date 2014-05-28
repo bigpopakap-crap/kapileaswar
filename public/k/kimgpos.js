@@ -2,6 +2,7 @@
 	Client-side script to keep HTML elements positioned correctly so that
 	the "focus" of them is displayed if only a small portion of the image is visible
 	
+	TODO doc
 	Attributes to add to the <img> tag:
 		data-k-imgpos="1" - activates on DOM load
 		data-k-imgpos-x="{value}" - defines the "center of focus" for the x axis
@@ -10,40 +11,61 @@
 		data-k-imgpos-y="{value}" - defines the "center of focus" for the y axis
 									in percentage, without the percent sign
 									default 50
+									
+	TODO add attribute to specify the element to use as the container
 */
 (function($) {
 	
-	var attrs = {
-		imgpos: 'data-k-imgpos',
-		imgposActive: 'data-k-imgpos-active',
-		x: 'data-k-imgpos-x',
-		y: 'data-k-imgpos-y',
-		skinny: 'data-k-imgpos-skinny',
-		short: 'data-k-imgpos-short'
+	var ATTR_PREFIX = 'data-k-imgpos-';
+	var ATTRS = {
+		docload: ATTR_PREFIX + 'docload',
+		winresize: ATTR_PREFIX + 'winresize',
+		centerx: ATTR_PREFIX + 'center-x',
+		centery: ATTR_PREFIX + 'center-y',
+		skinny: ATTR_PREFIX + 'skinny',
+		short: ATTR_PREFIX + 'short'
 	};
 	
-	var dflt = {
-		x: '50',
-		y: '50'
+	var VALS = {
+		TRUE: 1,
+		FALSE: 0,
+		DFLT_CENTER: 50,
+		MIN_CENTER: 0,
+		MAX_CENTER: 100
 	}
 	
 	function limit(val, min, max) {
+		/*
+		 * TODO handle case that min > max
+		 */
 		if ((min !== null) && val < min) return min;
 		else if ((max !== null) && val > max) return max;
 		else return val;
 	}
 	
+	function attrTrueSel(attr) {
+		return '[' + attr + '="1"]';
+	}
+	
 	/**
 	 * One-time repositioning
 	 */
-	function kImgPos_once($img, $container) {
+	function kimgpos_once($img, $container) {
 		//remove the skinny and short attributes for these calculations
-		$img.attr(attrs.skinny, "0");
-		$img.attr(attrs.short, "0");
+		$img.attr(ATTRS.skinny, VALS.FALSE);
+		$img.attr(ATTRS.short, VALS.FALSE);
 		
 		//get the "center of focus" of the img as defined by the attributes
-		var centerX = limit($img.attr(attrs.x) || dflt.x, 0, 100);
-		var centerY = limit($img.attr(attrs.y) || dflt.y, 0, 100);
+		var centerX = limit(
+						$img.attr(ATTRS.centerx) || VALS.DFLT_CENTER,
+						VALS.MIN_CENTER,
+						VALS.MAX_CENTER
+					);
+		var centerY = limit(
+						$img.attr(ATTRS.centery) || VALS.DFLT_CENTER,
+						VALS.MIN_CENTER,
+						VALS.MAX_CENTER
+					);
 		
 		//get the width of the image
 		var imgWidth = $img.width();
@@ -54,8 +76,8 @@
 		var containerHeight = $container.height();
 		
 		//add attributes for when img is smaller than container
-		$img.attr(attrs.skinny, (imgWidth < containerWidth) ? "1" : "0");
-		$img.attr(attrs.short, (imgHeight < containerHeight) ? "1" : "0");
+		$img.attr(ATTRS.skinny, (imgWidth < containerWidth) ? VALS.TRUE : VALS.FALSE);
+		$img.attr(ATTRS.short, (imgHeight < containerHeight) ? VALS.TRUE : VALS.FALSE);
 		
 		//determine how much we need to shift the img to put the focus in the center
 		var topGoal = containerHeight/2 - (centerX/100)*imgHeight;
@@ -77,38 +99,34 @@
 	}
 	
 	/**
-	 * Activate smart positioning on these elements
+	 * Do smart positioning on these elements
 	 */
-	$.fn.kImgPos = function () {
+	$.fn.kimgpos = function () {
 		this.each(function() {
 			var $img = $(this);
 			var $container = $(this).parent();
-			
-			kImgPos_once($img, $container);
-			
-			/*
-			 * attach to window resize event if it has not already
-			 * been activated on this img
-			 */
-			if (!$img.attr(attrs.imgposActive)) {
-				$(window).resize(function() {
-					kImgPos_once($img, $container);
-				});
-				
-				$img.load(function() {
-					kImgPos_once($img, $container);
-				});
-				
-				$img.attr(attrs.imgposActive, '1');
-			}
+			kimgpos_once($img, $container);
 		});
 		
 		return this;
 	}
 	
 	//now activate on all components on load
-	$(document).ready(function () {
-		$('img[' + attrs.imgpos + '="1"]').kImgPos();
+	$(document).ready(function() {
+		var sel = attrTrueSel(ATTRS.docload);
+		var $all = $(sel);
+		$all.kimgpos();
+		
+		//Also attach to img load for these elements
+		var $imgs = $('img' + sel);
+		$imgs.load(function () {
+			$imgs.kimgpos();
+		});
+	});
+	
+	//add an event on window resize
+	$(window).resize(function() {
+		$(attrTrueSel(ATTRS.winresize)).kimgpos();
 	});
 	
 })(jQuery);
