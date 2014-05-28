@@ -9,8 +9,8 @@
 		autoplay - whether the carousel should auto-advance
 		showcaptions - master switch to enable/disable captions
 						(even if they are defined in the data)
-
-include ./kimgpos.jade
+		usekimgpos - whether to use the kimgpos script to dynamically
+						position images
 
 mixin carousel(id, imgData, options)
 
@@ -28,6 +28,19 @@ mixin carousel(id, imgData, options)
 	- options.autoplay = ('boolean' == typeof options.autoplay) ? options.autoplay : true;
 	- options.showcaptions = ('boolean' == typeof options.showcaptions) ? options.showcaptions : true;
 	
+	//-
+		TODO figure out how to make this script appear in the head
+	if options.usekimgpos
+		script(type="text/javascript", src="/public/k/kimgpos.js")
+		script(type="text/javascript").
+			$(document).ready(function() {
+				var $carousel = $('#{CAROUSEL_SEL}');
+				
+				$carousel.on('slid.bs.carousel', function() {
+					$carousel.find('.item.active img[data-k-imgpos="1"]').kImgPos();
+				});
+			});
+	
 	style(type="text/css").
 		#{CAROUSEL_SEL},
 		#{CAROUSEL_SEL} .item {
@@ -36,10 +49,10 @@ mixin carousel(id, imgData, options)
 		
 		#{CAROUSEL_SEL} .item img {
 			width: 100%;
+			min-height: 100%;
 		}
 		
 	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
-		
 	div(id=CAROUSEL_ID).carousel.slide(data-ride=SWITCH_DATA_RIDE)
 		if options.indicators
 			ol.carousel-indicators
@@ -51,8 +64,9 @@ mixin carousel(id, imgData, options)
 		div.carousel-inner
 			- for (var i = 0; i < imgData.length; i++) {
 				- var switchActiveClass = (i == options.initActive) ? "active" : "";
+				- var switchKImgPos = options.usekimgpos ? "1" : "0";
 				div.item(class=switchActiveClass)
-					+kimgpos(imgData[i])
+					img(src=imgData[i].getUrl(), data-k-imgpos=switchKImgPos, data-k-imgpos-x=imgData[i].getCenterX(), data-k-imgpos-y=imgData[i].getCenterY())
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}
