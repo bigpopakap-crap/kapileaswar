@@ -18,6 +18,8 @@
 		imgposActive: 'data-k-imgpos-active',
 		x: 'data-k-imgpos-x',
 		y: 'data-k-imgpos-y',
+		skinny: 'data-k-imgpos-skinny',
+		short: 'data-k-imgpos-short'
 	};
 	
 	var dflt = {
@@ -35,6 +37,10 @@
 	 * One-time repositioning
 	 */
 	function kImgPos_once($img, $container) {
+		//remove the skinny and short attributes for these calculations
+		$img.attr(attrs.skinny, "0");
+		$img.attr(attrs.short, "0");
+		
 		//get the "center of focus" of the img as defined by the attributes
 		var centerX = limit($img.attr(attrs.x) || dflt.x, 0, 100);
 		var centerY = limit($img.attr(attrs.y) || dflt.y, 0, 100);
@@ -47,6 +53,10 @@
 		var containerWidth = $container.width();
 		var containerHeight = $container.height();
 		
+		//add attributes for when img is smaller than container
+		$img.attr(attrs.skinny, (imgWidth < containerWidth) ? "1" : "0");
+		$img.attr(attrs.short, (imgHeight < containerHeight) ? "1" : "0");
+		
 		//determine how much we need to shift the img to put the focus in the center
 		var topGoal = containerHeight/2 - (centerX/100)*imgHeight;
 		var leftGoal = containerWidth/2 - (centerY/100)*imgWidth;
@@ -55,7 +65,7 @@
 		var topMin = limit(containerHeight - imgHeight, null, 0);
 		var leftMin = limit(containerWidth - imgWidth, null, 0);
 		
-		//the final offset values
+		//offset values
 		var top = limit(topGoal, topMin, 0) + 'px';
 		var left = limit(leftGoal, leftMin, 0) + 'px';
 		

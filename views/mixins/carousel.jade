@@ -49,7 +49,18 @@ mixin carousel(id, imgData, options)
 		
 		#{CAROUSEL_SEL} .item img {
 			width: 100%;
-			min-height: 100%;
+		}
+
+		#{CAROUSEL_SEL} .item img[data-k-imgpos-skinny="1"] {
+			width: 100%;
+			height: auto;
+			max-height: none;
+		}
+		
+		#{CAROUSEL_SEL} .item img[data-k-imgpos-short="1"] {
+			width: auto;
+			max-width: none;
+			height: 100%;
 		}
 		
 	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
