@@ -1,7 +1,7 @@
 /**
  * Public constants for logging levels
  */
-var Level = {
+KLogger.Level = {
 	NONE: { pri: -1000, name: 'NONE' },
 	TRACE: { pri: 1, name: 'TRACE' },
 	DEBUG: { pri: 2, name: 'DEBUG' },
@@ -9,25 +9,32 @@ var Level = {
 	WARN: { pri: 4, name: 'WARN' },
 	ERROR: { pri: 5, name: 'ERROR' }
 };
-KLogger.Level = Level;
 
 /**
  * Javascript logger
+ * 
+ * options
+ * 		level - the min logging level, must be one
+ * 				of the above enum
+ * 		allowAlerts - do we allow the logger to do alerts?
+ * 		loggerName - the name of this logger
  */
-function KLogger(LOGGING_LEVEL) {
-
-	//Member variables
-	var isInitialized = false;
-	var curLevel = null;		//can only be set during initialization
-	var allowAlerts = null;
-
+function KLogger(options) {
+	
+	var Level = KLogger.Level;
+	
+	options = options || {};
+	var level = options.level || Level.INFO;
+	var allowAlerts = ('boolean' == typeof options.allowAlerts) ? options.allowAlerts : false;
+	var loggerName = options.loggerName || 'KLogger';
+	
 	//Creates a function to take a level and message, and either logs it or alerts it,
 	//if the logger level allows it and alerts are allowed
 	var createLogOrAlertFn = function (isAlert) {
 		return function (level, message) {
 			//test whether we can print the message based on configuration of the logger
-			if (isInitialized && curLevel.pri >= 0 && level.pri >= curLevel.pri) {
-				var output = 'KLogger [' + level.name + ']: ' + message;
+			if (getLevel().pri >= 0 && level.pri >= getLevel().pri) {
+				var output = getLoggerName() + ' [' + level.name + ']: ' + message;
 
 				//either log or alert the message
 				if (isAlert && allowAlerts) alert(output);
@@ -35,36 +42,16 @@ function KLogger(LOGGING_LEVEL) {
 			}
 		}
 	};
+	
+	function getLoggerName() {
+		return loggerName;
+	}
 
 	/**
-	 * Initialize with the given level
-	 * @param level
+	 * Gets the current logging level
 	 */
-	function init(level) {
-		if (!this.isInitialized) {
-			curLevel = level;
-			allowAlerts = true; //TODO don't allow alerts in production
-			isInitialized = true;
-
-			//Log that this has been initialized
-			info('Logger initialized at level ' + getLevel().name);
-		}
-		else {
-			//this has already been initialized, log an error
-			warn('Logger has already been initialized');
-		}
-	};
-
-	//Gets the current logging level
 	function getLevel() {
-		if (isInitialized) {
-			return curLevel;
-		}
-		else {
-			//log an error
-			console.log('Error: this Logger has not yet been initialized');
-			return null;
-		}
+		return level;
 	};
 	this.getLevel = getLevel;
 
@@ -98,8 +85,6 @@ function KLogger(LOGGING_LEVEL) {
 	this.warnAlert = warnAlert;
 	this.errorAlert = errorAlert;
 	
-	/*
-	 * DO THE INITIALIZATION
-	 */
-	init(LOGGING_LEVEL);
+	info('Initialized ' + getLoggerName() + ' at level ' + getLevel().name);
+	
 };
