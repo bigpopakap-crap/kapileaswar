@@ -32,12 +32,14 @@ mixin carousel(id, imgData, options)
 		TODO figure out how to make this script appear in the head
 	if options.usekimgpos
 		script(type="text/javascript", src="/public/k/kimgpos.js")
+		
+		//- redo the kimgpos when image is slid in
 		script(type="text/javascript").
 			$(document).ready(function() {
 				var $carousel = $('#{CAROUSEL_SEL}');
 				
 				$carousel.on('slid.bs.carousel', function() {
-					$carousel.find('.item.active img[data-k-imgpos-winresize="1"]').kimgpos();
+					$carousel.find('.item.active img').kimgpos();
 				});
 			});
 	
@@ -74,10 +76,10 @@ mixin carousel(id, imgData, options)
 
 		div.carousel-inner
 			- for (var i = 0; i < imgData.length; i++) {
-				- var switchActiveClass = (i == options.initActive) ? "active" : "";
-				- var switchKImgPos = options.usekimgpos ? "1" : "0";
+				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
+				- var switchKImgPos = options.usekimgpos ? "1" : undefined;
 				div.item(class=switchActiveClass)
-					img(src=imgData[i].getUrl(), data-k-imgpos-docload=switchKImgPos, data-k-imgpos-winresize=switchKImgPos, data-k-imgpos-center-x=imgData[i].getCenterX(), data-k-imgpos-center-y=imgData[i].getCenterY())
+					img(src=imgData[i].getUrl(), data-k-imgpos-docload=switchKImgPos, data-k-imgpos-winresize=switchKImgPos, data-k-imgpos-container=CAROUSEL_SEL, data-k-imgpos-center-x=imgData[i].getCenterX(), data-k-imgpos-center-y=imgData[i].getCenterY())
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}

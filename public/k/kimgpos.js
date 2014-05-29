@@ -2,15 +2,17 @@
 	Client-side script to keep HTML elements positioned correctly so that
 	the "focus" of them is displayed if only a small portion of the image is visible
 	
-	TODO doc
 	Attributes to add to the <img> tag:
-		data-k-imgpos="1" - activates on DOM load
-		data-k-imgpos-x="{value}" - defines the "center of focus" for the x axis
-									in percentage, without the percent sign
-									default 50
-		data-k-imgpos-y="{value}" - defines the "center of focus" for the y axis
-									in percentage, without the percent sign
-									default 50
+		data-k-imgpos-docload="1" - activates on document load
+		data-k-imgpos-winresize="1" - adds to the window resize handler
+		data-k-imgpos-container="{selector}" - the element to use as the container of
+											the activated element
+		data-k-imgpos-center-x="{value}" - defines the "center of focus" for the x axis
+											in percentage, without the percent sign
+											default 50
+		data-k-imgpos-center-y="{value}" - defines the "center of focus" for the y axis
+											in percentage, without the percent sign
+											default 50
 									
 	TODO add attribute to specify the element to use as the container
 */
@@ -20,6 +22,7 @@
 	var ATTRS = {
 		docload: ATTR_PREFIX + 'docload',
 		winresize: ATTR_PREFIX + 'winresize',
+		container: ATTR_PREFIX + 'container',
 		centerx: ATTR_PREFIX + 'center-x',
 		centery: ATTR_PREFIX + 'center-y',
 		skinny: ATTR_PREFIX + 'skinny',
@@ -80,8 +83,8 @@
 		$img.attr(ATTRS.short, (imgHeight < containerHeight) ? VALS.TRUE : VALS.FALSE);
 		
 		//determine how much we need to shift the img to put the focus in the center
-		var topGoal = containerHeight/2 - (centerX/100)*imgHeight;
-		var leftGoal = containerWidth/2 - (centerY/100)*imgWidth;
+		var topGoal = containerHeight/2 - (centerY/100)*imgHeight;
+		var leftGoal = containerWidth/2 - (centerX/100)*imgWidth;
 		
 		//the min offset we can have that will cause the image to leave white space
 		var topMin = limit(containerHeight - imgHeight, null, 0);
@@ -104,7 +107,10 @@
 	$.fn.kimgpos = function () {
 		this.each(function() {
 			var $img = $(this);
-			var $container = $(this).parent();
+			
+			var containerSel = $(this).attr(ATTRS.container);
+			var $container = containerSel ? $(containerSel) : $img.parent();
+			
 			kimgpos_once($img, $container);
 		});
 		
