@@ -9,8 +9,8 @@
 		autoplay - whether the carousel should auto-advance
 		showcaptions - master switch to enable/disable captions
 						(even if they are defined in the data)
-		usekimgpos - whether to use the kimgpos script to dynamically
-						position images
+		
+		TODO add option to stop smart positioning
 
 mixin carousel(id, imgData, options)
 
@@ -27,21 +27,6 @@ mixin carousel(id, imgData, options)
 	- options.controls = ('boolean' == typeof options.controls) ? options.controls : true;
 	- options.autoplay = ('boolean' == typeof options.autoplay) ? options.autoplay : true;
 	- options.showcaptions = ('boolean' == typeof options.showcaptions) ? options.showcaptions : true;
-	
-	//-
-		TODO figure out how to make this script appear in the head
-	if options.usekimgpos
-		script(type="text/javascript", src="/public/k/kimgpos.js")
-		
-		//- redo the kimgpos when image is slid in
-		script(type="text/javascript").
-			$(document).ready(function() {
-				var $carousel = $('#{CAROUSEL_SEL}');
-				
-				$carousel.on('slid.bs.carousel', function() {
-					$carousel.find('.item.active img').kimgpos();
-				});
-			});
 	
 	style(type="text/css").
 		#{CAROUSEL_SEL},
@@ -77,12 +62,19 @@ mixin carousel(id, imgData, options)
 		div.carousel-inner
 			- for (var i = 0; i < imgData.length; i++) {
 				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
-				- var switchKImgPos = options.usekimgpos ? "1" : undefined;
-				div.item(class=switchActiveClass)
-					img(src=imgData[i].getUrl(), data-k-imgpos-docload=switchKImgPos, data-k-imgpos-winresize=switchKImgPos, data-k-imgpos-container=CAROUSEL_SEL, data-k-imgpos-center-x=imgData[i].getCenterX(), data-k-imgpos-center-y=imgData[i].getCenterY())
+				- var cssClass = 'item' + i;
+				div.item(class=switchActiveClass)(class=cssClass)
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}
+					style(type="text/css").
+						#{CAROUSEL_SEL} .item.#{cssClass} {
+							background-image: url('#{imgData[i].getUrl()}');
+							background-repeat: no-repeat;
+							background-size: cover;
+							background-position-x: #{imgData[i].getCenterX()}%;
+							background-position-y: #{imgData[i].getCenterY()}%;
+						}
 			- }
 			
 		if options.controls
