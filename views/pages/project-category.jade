@@ -1,5 +1,6 @@
 extends ../layouts/layout.jade
 include ../mixins/navbar.jade
+include ../mixins/projectOverview.jade
 
 //-
 	Overview of a category of projects
@@ -12,13 +13,12 @@ block body
 	+navbar("navbar", {
 			initFixed: true
 		})
-	
-	h1 My projects for category: #{CATEGORY.name}
-	
-	- for (var pi in CATEGORY.projects) {
-		- var pkey = CATEGORY.projects[pi];
-		- var project = DATA.PROJECTS[pkey];
 		
-		div: a(href=URLS.projectDetail(project.key))
-			| #{project.name}
-	- }
+	div.container-fluid
+		h1 My projects for category: #{CATEGORY.name}
+		
+		- for (var pi in CATEGORY.projects) {
+			- var pkey = CATEGORY.projects[pi];
+			- var project = DATA.PROJECTS[pkey];
+			+projectOverview(project)
+		- }
