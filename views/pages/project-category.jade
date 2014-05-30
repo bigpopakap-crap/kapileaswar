@@ -20,5 +20,8 @@ block body
 		- for (var pi in CATEGORY.projects) {
 			- var pkey = CATEGORY.projects[pi];
 			- var project = DATA.PROJECTS[pkey];
-			+projectOverview(project)
+			
+			div.row
+				div.col-md-12
+					+projectOverview(project)
 		- }
