@@ -6,13 +6,22 @@ include ../mixins/linefiller.jade
 //-
 	The homepage
 block body
-	+carousel('head-carousel', DATA.HEAD_CAROUSEL, {
+	- var headCarouselId = 'head-carousel';
+	- var headCarouselSel = '#' + headCarouselId;
+	style(type="text/css").
+		body.hasFixedNavbar #{headCarouselSel} {
+			display: none;
+		}
+
+	+carousel(headCarouselId, DATA.HEAD_CAROUSEL, {
 			indicators: false,
 			controls: false,
 			height: '200px',
 			usekimgpos: true
 		})
+
 	+navbar("navbar", {
 			dynamicAffix: true
 		})
+
 	+linefiller(100)
