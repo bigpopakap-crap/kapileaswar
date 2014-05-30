@@ -6,8 +6,7 @@ var categories = {
 	tech: {
 		name: 'Tech projects',
 		projects: [
-		    'some-proj-1',
-		    'some-proj-2'
+		    'clay-animals'
 		]
 	}
 };

@@ -1,0 +1,15 @@
+//-
+	The short overview of a project
+	
+	project - the project object to display
+	
+include ./carousel.jade
+
+mixin projectOverview(project)
+
+
+
+	h3 #{project.name}
+	
+	a(href=URLS.projectDetail(project.key))
+		| #{project.name}
