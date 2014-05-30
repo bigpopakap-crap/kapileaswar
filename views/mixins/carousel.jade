@@ -12,6 +12,8 @@
 		
 		TODO add option to stop smart positioning
 
+include ./image.jade
+
 mixin carousel(id, imgData, options)
 
 	- imgData = imgData || [];
@@ -64,17 +66,12 @@ mixin carousel(id, imgData, options)
 				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
 				- var cssClass = 'item' + i;
 				div.item(class=switchActiveClass)(class=cssClass)
+					+image(imgData[i], 'bgimg', {
+							sel: CAROUSEL_SEL + ' .item.' + cssClass
+						})
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}
-					style(type="text/css").
-						#{CAROUSEL_SEL} .item.#{cssClass} {
-							background-image: url('#{imgData[i].getUrl()}');
-							background-repeat: no-repeat;
-							background-size: cover;
-							background-position-x: #{imgData[i].getCenterX()}%;
-							background-position-y: #{imgData[i].getCenterY()}%;
-						}
 			- }
 			
 		if options.controls

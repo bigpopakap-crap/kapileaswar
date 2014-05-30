@@ -1,0 +1,34 @@
+//-
+	Mixin for including images. This handles switching between
+	using CSS background-image or an img tag. It also can handle
+	pre-loading of images if necessary
+	
+	imgObj - an Image object
+	type - one of:
+		'img' - use an image tag
+		'bgimg' - use a CSS background-image
+				This will use img.getCenterX() and img.getCenterY()
+				Expects options: 'sel'
+		'icon' - TODO sprite sheet
+	options - an object of
+		'preload' - a flag to indicate whether this image should be preloaded
+		'sel' - an element selector
+
+mixin image(imgObj, type, options)
+
+	- options = options || {}
+	
+	//- TODO do any preloading stuff if necessary
+	
+	if (type === 'img')
+		<img src="#{imgObj.getUrl()}" alt="#{imgObj.getAlt()}">
+		
+	else if (type == 'bgimg')
+		style(type="text/css").
+			#{options.sel} {
+				background-image: url('#{imgObj.getUrl()}');
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position-x: #{imgObj.getCenterX()}%;
+				background-position-y: #{imgObj.getCenterY()}%;
+			}
