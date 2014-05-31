@@ -2,14 +2,16 @@ doctype html
 html(lang="en-US")
 	head
 		title Kapil Easwar
+		
+		//- bootstrap CSS
 		meta(name="viewport", content="width=device-width, initial-scale=1")
 		link(href="/public/bootstrap-3.1.1/css/bootstrap.min.css", rel="stylesheet", type="text/css")
 		
+		//- jquery and bootstrap JS
 		script(src="/public/jquery/jquery-2.1.1.min.js", type="text/javascript")
 		script(src="/public/bootstrap-3.1.1/js/bootstrap.min.js", type="text/javascript")
 		
-		link(href="/public/css/site-theme.css", rel="stylesheet", type="text/css")
-		
+		//- Logging
 		script(src="/public/k/KLogger.js", type="text/javascript")
 		script(type="text/javascript").
 			var kLogger =  new KLogger({
@@ -18,12 +20,22 @@ html(lang="en-US")
 				loggerName: 'kLogger'
 			});
 		
-		block head
+		//- common CSS for the site
+		link(href="/public/css/site-theme.css", rel="stylesheet", type="text/css")
+		
+		//- where pages and stuff should add common JS and CSS
+		block headResources
 	
 	body
+		//- where pages will put stuff to go at the top that's not the content
 		block bodyHeading
 		
 		div#content.container
 			div.row
 				div.col-md-12
-					block bodyContent
+					//- where pages will put their content
+					block body
+					
+		//- TODO put a footer
+		
+		block bodyEndResources
