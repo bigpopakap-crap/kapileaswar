@@ -4,6 +4,7 @@ body.hasFixedNavbar #content {
 
 #content {
 	padding-top: 12px;
+	padding-bottom: 12px;
 }
 
 @media(max-width: 767px) {
