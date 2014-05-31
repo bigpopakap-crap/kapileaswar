@@ -35,23 +35,7 @@ mixin carousel(id, imgData, options)
 		#{CAROUSEL_SEL} .item {
 			height: #{CAROUSEL_HEIGHT};
 		}
-		
-		#{CAROUSEL_SEL} .item img {
-			width: 100%;
-		}
 
-		#{CAROUSEL_SEL} .item img[data-k-imgpos-skinny="1"] {
-			width: 100%;
-			height: auto;
-			max-height: none;
-		}
-		
-		#{CAROUSEL_SEL} .item img[data-k-imgpos-short="1"] {
-			width: auto;
-			max-width: none;
-			height: 100%;
-		}
-		
 	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
 	div(id=CAROUSEL_ID).carousel.slide(data-ride=SWITCH_DATA_RIDE)
 		if options.indicators
@@ -66,9 +50,7 @@ mixin carousel(id, imgData, options)
 				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
 				- var cssClass = 'item' + i;
 				div.item(class=switchActiveClass)(class=cssClass)
-					+image(imgData[i], 'bgimg', {
-							sel: CAROUSEL_SEL + ' .item.' + cssClass
-						})
+					+image_bgimg(imgData[i], CAROUSEL_SEL + ' .item.' + cssClass)
 					if options.showcaptions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}

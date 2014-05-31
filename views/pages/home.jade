@@ -5,14 +5,7 @@ include ../mixins/linefiller.jade
 
 //-
 	The homepage
-block body
-	- var headCarouselId = 'head-carousel';
-	- var headCarouselSel = '#' + headCarouselId;
-	style(type="text/css").
-		body.hasFixedNavbar #{headCarouselSel} {
-			display: none;
-		}
-
+block bodyHeading
 	+carousel(headCarouselId, DATA.HEAD_CAROUSEL, {
 			indicators: false,
 			controls: false,
@@ -24,4 +17,5 @@ block body
 			dynamicAffix: true
 		})
 
+block bodyContent
 	+linefiller(100)
