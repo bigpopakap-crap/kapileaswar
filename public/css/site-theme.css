@@ -1,4 +1,20 @@
+body.hasFixedNavbar #content {
+	margin-top: 70px;
+}
+
+@media(max-width: 768px) {
+	#navbar {
+		margin-bottom: 0;
+	}
+}
+
 html,
 body {
 	background: #C4E3F3;
+}
+
+#content {
+	background: white;
+	padding-top: 12px;
+	border: solid 1px #E7E7E7;
 }

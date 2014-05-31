@@ -20,12 +20,6 @@ mixin navbar(id, options)
 	- var NAVBAR_COLLAPSE_TOGGLE_SEL = NAVBAR_SEL + ' .collapse-toggle';
 	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .collapse';
 	
-	//- begin fixed navbar stuff
-	style(type="text/css").
-		body.hasFixedNavbar {
-			padding-top: 60px;
-		}
-	
 	script(type="text/javascript").
 		$(document).ready(function() {
 			var $body = $('body');
