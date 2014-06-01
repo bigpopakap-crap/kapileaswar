@@ -2,11 +2,12 @@ extends ../layouts/layout.jade
 include ../mixins/navbar.jade
 include ../mixins/carousel.jade
 include ../mixins/linefiller.jade
+include ../mixins/image.jade
 
 //-
 	The homepage
 block bodyHeading
-	+carousel(headCarouselId, DATA.HEAD_CAROUSEL, {
+	+carousel(headCarouselId, DATA.HEAD_CAROUSEL_IMAGES, {
 			indicators: false,
 			controls: false,
 			height: '200px',
@@ -18,4 +19,7 @@ block bodyHeading
 		})
 
 block body
-	+linefiller(100)
+	+linefiller(60)
+
+block bodyEndResources
+	+image_preload(DATA.HEAD_CAROUSEL_IMAGES)

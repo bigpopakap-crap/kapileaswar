@@ -1,9 +1,7 @@
 //-
 	Mixin for including images as CSS background images
-	
 	imgObj - an Image object
 	sel - the selector of the element that the image should go
-
 mixin image_bgimg(imgObj, sel)
 	style(type="text/css").
 		#{sel} {
@@ -13,13 +11,14 @@ mixin image_bgimg(imgObj, sel)
 			background-position-x: #{imgObj.getCenterX()}%;
 			background-position-y: #{imgObj.getCenterY()}%;
 		}
-		
+
 //-
 	Mixin for preloading images
-	
-	imgObjs - an array of images to preload
-	
+	imgObjs - an array of Image objects to preload
 mixin image_preload(imgObjs)
-	- for (var i in imgObjs) {
-		// preload image: #{imgObjs[i].getUrl()}
-	- }
+	//- TODO how to put this at the end of the page?
+	// preloaded images
+	div(style="display: none")
+		- for (var i in imgObjs) {
+			<img src="#{imgObjs[i].getUrl()}">
+		- }
