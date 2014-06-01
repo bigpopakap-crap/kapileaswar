@@ -47,7 +47,7 @@ mixin carousel(imgData, options)
 					+image_bgimg(imgData[i])(class="image")
 					if options.captions
 						div.carousel-caption
-							block
+							| #{imgData[i].getAlt()}
 			- }
 			
 		if options.controls
