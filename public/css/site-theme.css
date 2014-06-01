@@ -2,19 +2,25 @@ body.hasFixedNavbar #content {
 	margin-top: 70px;
 }
 
-@media(max-width: 768px) {
+#content {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+@media(max-width: 767px) {
 	#navbar {
 		margin-bottom: 0;
 	}
 }
 
-html,
-body {
-	background: #C4E3F3;
-}
-
-#content {
-	background: white;
-	padding-top: 12px;
-	border: solid 1px #E7E7E7;
+@media(min-width: 768px) {
+	html,
+	body {
+		background: #C4E3F3;
+	}
+	
+	#content {
+		background: white;
+		border: solid 1px #E7E7E7;
+	}
 }
