@@ -10,9 +10,9 @@ include ../mixins/projectOverview.jade
 block body
 	- var CATEGORY = DATA.PROJECT_CATEGORIES[catkey]
 
-	+navbar("navbar", {
-			initFixed: true
-		})
+	+navbar({
+				initFixed: true
+			})#navbar
 		
 	div.container-fluid
 		h1 My projects for category: #{CATEGORY.name}
