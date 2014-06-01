@@ -1,5 +1,4 @@
 //-
-	id - the ID of the navbar
 	options - an object with
 		dynamicAffix - should the navbar dynamically fix to top on scroll
 						default false
@@ -8,18 +7,16 @@
 		collapseOnBlur - should the menu collapse on blur?
 						default true
 
-mixin navbar(id, options)
+mixin navbar(options)
 
 	- options = options || {};
-	- if ('boolean' !== typeof options.collapseOnBlur) {
-	- 	options.collapseOnBlur = true;
-	- }
+	- options.collapseOnBlur = ('boolean' == typeof options.collapseOnBlur) ? options.collapseOnBlur : true;
 		
-	- var NAVBAR_ID = id;
-	- var NAVBAR_SEL = '#' + NAVBAR_ID;
+	- var NAVBAR_SEL = attributes.id ? '#' + attributes.id : '.navbar';
 	- var NAVBAR_COLLAPSE_TOGGLE_SEL = NAVBAR_SEL + ' .collapse-toggle';
 	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .collapse';
 	
+	// script to fix the navbar and adjust body style
 	script(type="text/javascript").
 		$(document).ready(function() {
 			var $body = $('body');
@@ -32,7 +29,9 @@ mixin navbar(id, options)
 			}
 		});
 	
+	//- stuff for dynamically-fixed navbar
 	if options.dynamicAffix
+		// adjust navbar borders
 		style(type="text/css").
 			#{NAVBAR_SEL}:not(.navbar-fixed-top) {
 				border-radius: 0;
@@ -41,7 +40,8 @@ mixin navbar(id, options)
 			#{NAVBAR_SEL}.navbar-inverse:not(.navbar-fixed-top) {
 				border-top: none;
 			}
-			
+
+		// script to do the dyanmic fixing of the navbar
 		script(type="text/javascript").
 			$(document).ready(function() {
 				var $window = $(window);
@@ -56,13 +56,14 @@ mixin navbar(id, options)
 			});
 			
 	if options.initFixed
+		// script to set the navbar fixed on page load
 		script(type="text/javascript").
 			$(document).ready(function() {
 				window.navbar_setNavbarFixed($('#{NAVBAR_SEL}'), true);
 			});
-	//- end fixed navbar stuff
 	
 	if options.collapseOnBlur
+		// script to collapse the navbar menu on blur and scroll
 		script(type="text/javascript").
 			$(document).ready(function() {
 				var $window = $(window);
@@ -83,8 +84,8 @@ mixin navbar(id, options)
 				$document.click(handler);
 				$window.scroll(handler);
 			});
-	//- end if collapseOnBlur
 	
+	// script to blur the collapse button when menu is collapsed
 	script(type="text/javascript").
 		$(document).ready(function() {
 			var $collapse = $('#{NAVBAR_COLLAPSE_SEL}');
@@ -95,8 +96,8 @@ mixin navbar(id, options)
 			});
 		});
 	
-	//- begin the actual navbar
-	nav(id=NAVBAR_ID, role="navigation").navbar.navbar-default
+	// the navbar html
+	nav(id=attributes.id, role="navigation").navbar.navbar-default
 		div.container-fluid
 			div.navbar-header
 				button(type="buton").navbar-toggle(data-toggle="collapse", data-target=NAVBAR_COLLAPSE_SEL)
@@ -104,9 +105,7 @@ mixin navbar(id, options)
 					span.icon-bar
 					span.icon-bar
 					span.icon-bar
-					
 				a.navbar-brand(href=URLS.base()): | Kapil Easwar
-			//- end navbar-header
 					
 			div.collapse.navbar-collapse
 				ul.nav.navbar-nav

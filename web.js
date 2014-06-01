@@ -6,7 +6,7 @@ var URLS = require(__dirname + '/modules/urls.js');
 var DATA = {
 	PROJECT_CATEGORIES: require(__dirname + '/modules/data/project-categories.js'),
 	PROJECTS: require(__dirname + '/modules/data/projects.js'),
-	HEAD_CAROUSEL: require(__dirname + "/modules/data/head-carousel.js"),
+	HEAD_CAROUSEL_IMAGES: require(__dirname + "/modules/data/head-carousel.js"),
 	CONTACT_CHANNELS: require(__dirname + "/modules/data/contact-channels.js")
 }
 

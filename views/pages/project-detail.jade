@@ -10,9 +10,9 @@ include ../mixins/projectDetail.jade
 block body
 	- var PROJECT = DATA.PROJECTS[pkey];
 
-	+navbar("navbar", {
+	+navbar({
 			initFixed: true
-		})
+		})#navbar
 	
 	div.container-fluid
 		+projectDetail(PROJECT)

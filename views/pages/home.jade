@@ -1,21 +1,31 @@
+//-
+	The landing page of the site
+
 extends ../layouts/layout.jade
+
 include ../mixins/navbar.jade
 include ../mixins/carousel.jade
 include ../mixins/linefiller.jade
+include ../mixins/image.jade
 
-//-
-	The homepage
+block append headResources
+	style(type="text/css").
+		#head-carousel {
+			height: 200px;
+		}
+
 block bodyHeading
-	+carousel(headCarouselId, DATA.HEAD_CAROUSEL, {
-			indicators: false,
-			controls: false,
-			height: '200px',
-			usekimgpos: true
-		})
+	+carousel(DATA.HEAD_CAROUSEL_IMAGES, {
+				indicators: false,
+				controls: false
+			})#head-carousel
 
-	+navbar("navbar", {
-			dynamicAffix: true
-		})
+	+navbar({
+				dynamicAffix: true
+			})#navbar
 
 block body
-	+linefiller(100)
+	+linefiller(60)
+
+block bodyEndResources
+	+image_preload(DATA.HEAD_CAROUSEL_IMAGES)
