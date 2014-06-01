@@ -26,7 +26,8 @@ mixin carousel(imgData, options)
 	//- make the inner items take up the full height of the carousel
 	style(type="text/css").
 		#{CAROUSEL_SEL} .carousel-inner,
-		#{CAROUSEL_SEL} .item {
+		#{CAROUSEL_SEL} .item,
+		#{CAROUSEL_SEL} .item .image {
 			height: 100%;
 		}
 
@@ -42,12 +43,11 @@ mixin carousel(imgData, options)
 		div.carousel-inner
 			- for (var i = 0; i < imgData.length; i++) {
 				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
-				- var cssClass = 'item' + i;
-				div.item(class=switchActiveClass)(class=cssClass)
-					+image_bgimg(imgData[i], CAROUSEL_SEL + ' .item.' + cssClass)
+				div.item(class=switchActiveClass)
+					+image_bgimg(imgData[i])(class="image")
 					if options.captions
 						div.carousel-caption
-							| #{imgData[i].getAlt()}
+							block
 			- }
 			
 		if options.controls

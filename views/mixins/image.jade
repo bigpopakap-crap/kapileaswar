@@ -1,16 +1,16 @@
 //-
-	Mixin for including images as CSS background images
+	Mixin for including a div with a CSS background image
 	imgObj - an Image object
-	sel - the selector of the element that the image should go
-mixin image_bgimg(imgObj, sel)
-	style(type="text/css").
-		#{sel} {
-			background-image: url('#{imgObj.getUrl()}');
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-position-x: #{imgObj.getCenterX()}%;
-			background-position-y: #{imgObj.getCenterY()}%;
-		}
+mixin image_bgimg(imgObj)
+	div(data-k-jade-mixin-image-bgimg=imgObj.getUrl())(class=attributes.class, style=attributes.style)
+		style(type="text/css").
+			div[data-k-jade-mixin-image-bgimg="#{imgObj.getUrl()}"] {
+				background-image: url('#{imgObj.getUrl()}');
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position-x: #{imgObj.getCenterX()}%;
+				background-position-y: #{imgObj.getCenterY()}%;
+			}
 
 //-
 	Mixin for preloading images
