@@ -1,43 +1,37 @@
 //-
-	id - the ID of the carousel
 	imgData - an array of Image objects
 	options - an object with
-		height - the height the carousel should be
 		initActive - initial index to be active
 		indicators - whether to include the placement indicators
 		controls - whether to include the left/right controls
 		autoplay - whether the carousel should auto-advance
-		showcaptions - master switch to enable/disable captions
+		captions - master switch to enable/disable captions
 						(even if they are defined in the data)
 		
-		TODO add option to stop smart positioning
-
 include ./image.jade
 
-mixin carousel(id, imgData, options)
+mixin carousel(imgData, options)
 
 	- imgData = imgData || [];
 	- options = options || {};
 
-	- var CAROUSEL_ID = id || 'carousel';
-	- var CAROUSEL_SEL = '#' + CAROUSEL_ID;
-	
-	- var CAROUSEL_HEIGHT = options.height || 'auto';
+	- var CAROUSEL_SEL = attributes.id ? '#' + attributes.id : '.carousel';
 	
 	- options.initActive = options.initActive || 0;
 	- options.indicators = ('boolean' == typeof options.indicators) ? options.indicators : true;
 	- options.controls = ('boolean' == typeof options.controls) ? options.controls : true;
 	- options.autoplay = ('boolean' == typeof options.autoplay) ? options.autoplay : true;
-	- options.showcaptions = ('boolean' == typeof options.showcaptions) ? options.showcaptions : true;
+	- options.captions = ('boolean' == typeof options.captions) ? options.captions : true;
 	
+	//- make the inner items take up the full height of the carousel
 	style(type="text/css").
-		#{CAROUSEL_SEL},
+		#{CAROUSEL_SEL} .carousel-inner,
 		#{CAROUSEL_SEL} .item {
-			height: #{CAROUSEL_HEIGHT};
+			height: 100%;
 		}
 
 	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
-	div(id=CAROUSEL_ID).carousel.slide(data-ride=SWITCH_DATA_RIDE)
+	div(id=attributes.id).carousel.slide(data-ride=SWITCH_DATA_RIDE)
 		if options.indicators
 			ol.carousel-indicators
 				- for (var i = 0; i < imgData.length; i++) {
@@ -51,7 +45,7 @@ mixin carousel(id, imgData, options)
 				- var cssClass = 'item' + i;
 				div.item(class=switchActiveClass)(class=cssClass)
 					+image_bgimg(imgData[i], CAROUSEL_SEL + ' .item.' + cssClass)
-					if options.showcaptions
+					if options.captions
 						div.carousel-caption
 							| #{imgData[i].getAlt()}
 			- }
