@@ -8,8 +8,6 @@
 		captions - master switch to enable/disable captions
 						(even if they are defined in the data)
 		
-include ./image.jade
-
 mixin carousel(imgData, options)
 
 	- imgData = imgData || [];
@@ -44,11 +42,11 @@ mixin carousel(imgData, options)
 			- for (var i = 0; i < imgData.length; i++) {
 				- var switchActiveClass = RENDER_UTIL.echoIf(i == options.initActive, 'active');
 				div.item(class=switchActiveClass)
-					+image_bgimg(imgData[i])(class="image")
+					+carouselImage(imgData[i])(class="image")
 
 					if options.captions
-						div.carousel_caption
-							| #{imgData[i].getAlt()}
+						div.carousel-caption
+							+carouselCaption(imgData[i])
 			- }
 			
 		if options.controls

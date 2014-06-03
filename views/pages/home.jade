@@ -19,6 +19,12 @@ block bodyHeading
 				indicators: false,
 				controls: false
 			})#head-carousel
+		//- image markup to use
+		mixin carouselImage(imgObj)
+			+image_bgimg(imgObj)&attributes(attributes)
+		//- caption markup to use
+		mixin carouselCaption(imgObj)
+			p&attributes(attributes) #{imgObj.getAlt()}
 
 	+navbar({
 				dynamicAffix: true
