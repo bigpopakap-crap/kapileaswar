@@ -32,7 +32,7 @@ mixin carousel(imgData, options)
 		}
 
 	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
-	div(id=attributes.id).carousel.slide(data-ride=SWITCH_DATA_RIDE)
+	div&attributes(attributes).carousel.slide(data-ride=SWITCH_DATA_RIDE)
 		if options.indicators
 			ol.carousel-indicators
 				- for (var i = 0; i < imgData.length; i++) {
@@ -45,8 +45,9 @@ mixin carousel(imgData, options)
 				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
 				div.item(class=switchActiveClass)
 					+image_bgimg(imgData[i])(class="image")
+
 					if options.captions
-						div.carousel-caption
+						div.carousel_caption
 							| #{imgData[i].getAlt()}
 			- }
 			

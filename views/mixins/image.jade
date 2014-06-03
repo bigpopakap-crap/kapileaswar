@@ -2,7 +2,7 @@
 	Mixin for including a div with a CSS background image
 	imgObj - an Image object
 mixin image_bgimg(imgObj)
-	div(data-k-jade-mixin-image-bgimg=imgObj.getUrl())(class=attributes.class, style=attributes.style)
+	div&attributes(attributes)(data-k-jade-mixin-image-bgimg=imgObj.getUrl())
 		style(type="text/css").
 			div[data-k-jade-mixin-image-bgimg="#{imgObj.getUrl()}"] {
 				background-image: url('#{imgObj.getUrl()}');
