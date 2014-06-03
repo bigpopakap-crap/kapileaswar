@@ -2,6 +2,7 @@ var express = require("express");
 var logfmt = require("logfmt");
 
 var URLS = require(__dirname + '/modules/urls.js');
+var RENDER_UTIL = require(__dirname + '/modules/render-util.js');
 
 var DATA = {
 	PROJECT_CATEGORIES: require(__dirname + '/modules/data/project-categories.js'),
@@ -14,6 +15,7 @@ var app = express();
 app.use(logfmt.requestLogger());
 app.use(URLS.pub(), express.static(__dirname + '/public'));
 app.locals = {
+	RENDER_UTIL: RENDER_UTIL,
 	URLS: URLS,
 	DATA: DATA
 }

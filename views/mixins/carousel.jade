@@ -15,13 +15,13 @@ mixin carousel(imgData, options)
 	- imgData = imgData || [];
 	- options = options || {};
 
-	- var CAROUSEL_SEL = attributes.id ? '#' + attributes.id : '.carousel';
+	- var CAROUSEL_SEL = RENDER_UTIL.echoIf(attributes.id, '#' + attributes.id, '.carousel');
 	
 	- options.initActive = options.initActive || 0;
-	- options.indicators = ('boolean' == typeof options.indicators) ? options.indicators : true;
-	- options.controls = ('boolean' == typeof options.controls) ? options.controls : true;
-	- options.autoplay = ('boolean' == typeof options.autoplay) ? options.autoplay : true;
-	- options.captions = ('boolean' == typeof options.captions) ? options.captions : true;
+	- options.indicators = RENDER_UTIL.dfltBool(options.indicators, true);
+	- options.controls = RENDER_UTIL.dfltBool(options.controls, true);
+	- options.autoplay = RENDER_UTIL.dfltBool(options.autoplay, true);
+	- options.captions = RENDER_UTIL.dfltBool(options.captions, true);
 	
 	//- make the inner items take up the full height of the carousel
 	style(type="text/css").
@@ -31,18 +31,18 @@ mixin carousel(imgData, options)
 			height: 100%;
 		}
 
-	- var SWITCH_DATA_RIDE = options.autoplay ? "carousel" : undefined;
+	- var SWITCH_DATA_RIDE = RENDER_UTIL.echoIf(options.autoplay, 'carousel');
 	div&attributes(attributes).carousel.slide(data-ride=SWITCH_DATA_RIDE)
 		if options.indicators
 			ol.carousel-indicators
 				- for (var i = 0; i < imgData.length; i++) {
-					- var switchActiveClass = (i == options.initActive) ? "active" : "";
+					- var switchActiveClass = RENDER_UTIL.echoIf(i == options.initActive, 'active');
 					li(data-target=CAROUSEL_SEL, data-slide-to=i, class=switchActiveClass)
 				- }
 
 		div.carousel-inner
 			- for (var i = 0; i < imgData.length; i++) {
-				- var switchActiveClass = (i == options.initActive) ? "active" : undefined;
+				- var switchActiveClass = RENDER_UTIL.echoIf(i == options.initActive, 'active');
 				div.item(class=switchActiveClass)
 					+image_bgimg(imgData[i])(class="image")
 

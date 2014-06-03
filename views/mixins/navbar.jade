@@ -10,9 +10,9 @@
 mixin navbar(options)
 
 	- options = options || {};
-	- options.collapseOnBlur = ('boolean' == typeof options.collapseOnBlur) ? options.collapseOnBlur : true;
+	- options.collapseOnBlur = RENDER_UTIL.dfltBool(options.collapseOnBlur, true);
 		
-	- var NAVBAR_SEL = attributes.id ? '#' + attributes.id : '.navbar';
+	- var NAVBAR_SEL = RENDER_UTIL.echoIf(attributes.id, '#' + attributes.id, '.navbar');
 	- var NAVBAR_COLLAPSE_TOGGLE_SEL = NAVBAR_SEL + ' .collapse-toggle';
 	- var NAVBAR_COLLAPSE_SEL = NAVBAR_SEL + ' .collapse';
 	
